@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Data Extract Readme</title>
+<style>
+/* -------------------------------------
+    GLOBAL
+------------------------------------- */
+* {
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-size: 100%;
+  line-height: 1.6em;
+  margin: 0;
+  padding: 0;
+}
+img {
+  max-width: 210px;
+  width: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  -webkit-text-size-adjust: none;
+  width: 100% !important;
+}
+/* -------------------------------------
+    ELEMENTS
+------------------------------------- */
+a {
+  color: #348eda;
+}
+.btn-primary {
+  Margin-bottom: 10px;
+  width: auto !important;
+}
+.btn-primary td {
+  background-color: #348eda; 
+  border-radius: 25px;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-size: 14px; 
+  text-align: center;
+  vertical-align: top; 
+}
+.btn-primary td a {
+  background-color: #348eda;
+  border: solid 1px #348eda;
+  border-radius: 25px;
+  border-width: 10px 20px;
+  display: inline-block;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 2;
+  text-decoration: none;
+}
+.last {
+  margin-bottom: 0;
+}
+.first {
+  margin-top: 0;
+}
+.padding {
+  padding: 10px 0;
+}
+/* -------------------------------------
+    BODY
+------------------------------------- */
+table.body-wrap {
+  padding: 20px;
+  width: 100%;
+}
+table.body-wrap .container {
+  border: 1px solid #f0f0f0;
+}
+/* -------------------------------------
+    FOOTER
+------------------------------------- */
+table.footer-wrap {
+  clear: both !important;
+  width: 100%;  
+}
+.footer-wrap .container p {
+  color: #666666;
+  font-size: 12px;
+  
+}
+table.footer-wrap a {
+  color: #999999;
+}
+/* -------------------------------------
+    TYPOGRAPHY
+------------------------------------- */
+h1, 
+h2, 
+h3 {
+  color: #111111;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 200;
+  line-height: 1.2em;
+  margin: 40px 0 10px;
+}
+h1 {
+  font-size: 36px;
+}
+h2 {
+  font-size: 28px;
+}
+h3 {
+  font-size: 22px;
+}
+p, 
+ul, 
+ol {
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+ul li, 
+ol li {
+  margin-left: 5px;
+  list-style-position: inside;
+}
+/* ---------------------------------------------------
+    RESPONSIVENESS
+------------------------------------------------------ */
+/* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+.container {
+  clear: both !important;
+  display: block !important;
+  Margin: 0 auto !important;
+  max-width: 600px !important;
+}
+/* Set the padding on the td rather than the div for Outlook compatibility */
+.body-wrap .container {
+  padding: 20px;
+}
+/* This should also be a block element, so that it will fill 100% of the .container */
+.content {
+  display: block;
+  margin: 0 auto;
+  max-width: 600px;
+}
+/* Let's make sure tables in the content area are 100% wide */
+.content table {
+  width: 100%;
+}
+</style>
+</head>
+
+<body bgcolor="#f6f6f6">
+
+<!-- body -->
+<table class="body-wrap" bgcolor="#f6f6f6">
+  <tr>
+    <td></td>
+    <td class="container" bgcolor="#FFFFFF">
+
+      <!-- content -->
+      <div class="content">
+      <table>
+        <tr>
+         <td>
+            <h1>Data Extraction Results</h1>
+            <p>Extract date: 2022-07-26T05:51:05</p>
+            <p>The requested PLACE NAMES data was extracted using the following parameters:</p>
+            <ul>
+                <li>Data format: GEOJSON</li>
+                <li>Coordinate system: LL-WGS84</li>
+             </ul>
+            <h2>Source metadata</h2>
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="https://sdi.nsw.gov.au/nswsdi/catalog/search/resource/details.page?uuid=%7BB84B8973-78E8-4A6C-B757-E2C5F79A307A%7D">NSW Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+            <p><b>Note:</b><br>Please be aware that the NSW Geographical Names Register is for information purposes only, and due to capture methods of the past, may not reflect an accurate location of a feature. For a representation of the relative position of NSW place names and other points of interest visit  <a href="https://maps.six.nsw.gov.au/">https://maps.six.nsw.gov.au/</a></p>
+            
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="http://www.hydro.gov.au/prodserv/publications/mga/mga.htm">AHO Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="https://www2.delwp.vic.gov.au/__data/assets/pdf_file/0030/49764/Vicmap-FOI-Product-Description.pdf">VIC Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="https://www.thelist.tas.gov.au/app/content/data/geo-meta-data-record?profileType=&groupName=&bboxNorth=&bboxWest=&bboxSouth=&bboxEast=&titleSearch=true&query=nomenclature&_keywordCategory=-1&isTasmania=true&custodian=&detailRecordUID=d193cd7a-d93a-4ca8-a0a3-670929ad247a&searchCriteriaURL=query%3Dnomenclature%26perPage%3D10%26sortBy%3DTitle%3AASC%26titleSearch%3Dtrue">TAS Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="https://placenames.nt.gov.au/committee">NT Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="http://location.sa.gov.au/lms/Reports/ReportMetadata.aspx?p_no=755&pu=y">SA Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="http://qldspatial.information.qld.gov.au/catalogue/custom/viewMetadataDetails.page?uuid=%7B1B19B980-B171-47C1-9AA6-5B95A7158ADC%7D">QLD Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="http://actmapi-actgov.opendata.arcgis.com/datasets/eed9b03deda94a579aac6853939beffe_8">ACT Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+                        <!-- button -->
+            <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <a href="https://catalogue.data.wa.gov.au/dataset/b8f44a94-430b-4fe3-baa1-0aab3685d137/resource/af93c5ee-b617-42b8-9afe-1cfd76b9ed60/download/geonomadatadictionary.pdf">WA Metadata</a>
+                </td>
+              </tr>
+            </table>
+            <!-- /button -->
+            
+          </td>
+        </tr>
+      </table>
+      </div>
+      <!-- /content -->
+      
+    </td>
+    <td></td>
+  </tr>
+</table>
+<!-- /body -->
+
+<!-- footer -->
+<table class="footer-wrap">
+  <tr>
+    <td></td>
+    <td class="container">
+      
+      <!-- content -->
+      <div class="content">
+        <table>
+          <tr>
+            <td align="center">
+                <a href="https://www.icsm.gov.au/what-we-do/permanent-committee-place-names">
+              <img src="data:image/gif;base64,R0lGODlh+gCUAPcAAJm71ujw9jeYgROIbcrc6nScwWubwtHd6QBRl/X2+evx7x1ppEOdiHuhxGOsmqS81bbVzWi1pAB8Xvn5+tLh7SVrpQB/YLjN4JW30gBanACAYpS51VqSvfDx9mSRuxtloSONc97p8uTo8Ahfn9Pi3crW5UuDszOUfIS8rkN8r/78/IGkxitzqk+plePt6srg2qXNwt/q8tvp5cPb1LXJ3e3x9f/+/kSCsjh9sABTmBNkoZ/NwpOxzlulknKzo2qVvbLG2/H19hJgngB5WgBJkgyGapGuywBYmxuLcZXLv8XW5eHm7wBMlPb4+luNuUqhjBRcnABWmqnB2LzQ4jJ1q9/s6SVwqAB6Wz2Bs4Ovz8zY5rjK3a7E2tnm4qzRxyqReMHR4pq20QBSl7zZ0d7l7jx5rVWLuAuDZ2uwnqzC2OHr5/T39fz6+1GFtIKmyCptpomoyOjq8e3z+Nnm8ACBY+ns8+3y7366q8/o4qq/1pvGulSItlmKtoWpymCOufz9/nCYv8Xf2fn6/IzAsw1hoPv8/OXt9ABOlZXFuaHIvcTS4unu9Mfa6XWhxXylyKLB2dPl31yolarI3vj2+ajH3Qham5HBtIKpytjg6+br8o6syyNup4atzd3i7J3IvTN5rsne1w1enomtzQaBZdji7Tl2q4yqygVWmY+y0Pb49gVZm1alkYywzn6oylCijQBGkABCjl6smezu8/v6/O308gVanPr7/AZcnXm2pn63qOry8MfU442tzAR/YgBzU8jg2eHt9Nrk7uzv9Ofw7a3H3QBPlglbnAtXmYmx0U6ItgJbnejv7Ctvp/D08v/+/Z6+2B+JbuHs8x1tpxZnpOfw9m2ZwMXT5ABWmQ9ZmwNUmIqsywaDZwhTl2+fxQNWmliGtABMkwA+iwJWmYu00gBLkwBVmf3+/v/9/fj5+AB3WE+MuiNhntHo42GXwAtbnAN+YL7P4PLz9oelxvn8+8HX0EiGtjBvpwNQlsLT48DV5a/L4IOrzIaryydoowCCZf///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMwMTQgNzkuMTU2Nzk3LCAyMDE0LzA4LzIwLTA5OjUzOjAyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxNCAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTUzNzIyQ0VBMzg2MTFFNUFDQ0NGQTcxREFFQ0VCMUIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTUzNzIyQ0ZBMzg2MTFFNUFDQ0NGQTcxREFFQ0VCMUIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1NTM3MjJDQ0EzODYxMUU1QUNDQ0ZBNzFEQUVDRUIxQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1NTM3MjJDREEzODYxMUU1QUNDQ0ZBNzFEQUVDRUIxQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAAAAAAALAAAAAD6AJQAAAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo8ePIEOKHEmypMmTKFOqXMmypcuXMGPKnEmzps2bOHPq3Mmzp8+fQIMKHUq0qNGjKbngoIG0qVOOcMJheEq16kRNRKZa3co1IVatXcNSRdfl18CvAs1BmKHAhti3QO14iXXi3YmzWQWqEHAFCQMUgSbAHWzzXCAHICRIsCBBAF6tKhhY0KDY7iAXhDO7tAGBQS8JGvyJbvxYLwMJokVbuDLAhwzNO9c4aEG7tu3buG/n0gNBBpuSJJ68Q51atWOBaP+xkVxctAbWd9ZYHPMkt/XrLWINghHIzsUk1XP7/0h1UVcs61UuKoA2RLH79/Djy5dwRkAuSCEnoDhDvLk/0sjl9U9k/TX33BdjVJSEL1fM5+CDFiDxRCK0UISGL/Jdkc4gF6lxRnvwDYHHRXaAEJp/KKboHx2rnbEKfh3JwMAVJ6JowXH/JLecBSr6Y8E7d/wmURJD9GhkipRJAAIKQUgUwRUp9jJAFxapMUCNqVkwokUlYnnkl6LRQR8K6Gw0BjQFoghgjgISaCQdV6ziXUREgmlnllcgGNGTKl4RSZVX+qcliSbeaSgdQzyhQEYw9MKjkWsmt1eaKV4hQHoQ1WnonT9aAhGfKYrpRUVWeunjlhV1uamhljZzUaOmGv8oQaKl/XNOJGc0GGtxSr72kKargkkZhw6BmqIFXyw6UamCokqRqijSIe201Fb7ZZwWwdrjakigAcGcbIJliww7MDAKaD1KcIKyDQHbXLXwWmskZTAUC2WPV+BCEbPNDcplof6NcsbABBds8DsNPpqiBHpQBMoZCvtH2ReIgFtrQZA4wB++rpTZbpEoGiyywVfoqqIF0GDGkLFInmGWRPwW52+qABf3DgNdkKDzzjzvDMkYO+BywmJIIjGMRMuAEHFzEhSBgnQHJXcQCaugW6kPDrmbmgaJ5Nzz1zpDgEgkA0hAR6VoNMTywgyoAHOg/To7EbS89iDRBDAkVimxD53/0wOlYTYGI0JSI+QJxKFKMCpDWjv3MkTD+DAZihoM4KtCay/ccEQxZym3RHSnJoHdyw5t4wkeO+QJ4P7AiQZ5ChWO0At62wiCygo17o8GgVDU6Nn+XeHpQpnbiIQanMMt8+cRhT4a6RO9cIap0g7OkAvQLB3mFT64tZDsCKkhAOtXpL2Q7rxX5APgEjCw8r1HSvAnRJ2rxjxEzv8H/URosO/JQz6AH9O6xxBnyIMcvHBGQ1zwBcDRoRcJyh3IDNS7Z9UsS0hgF0KKFy0LQIB+yvMcoUw1Oou8YBTAK84VHOAQGRQhVvI7h0IwwY96MEMIRxACM+phBEzIMCGQGMA7/wx0hV4g4nwTLE76KtK/FfUCFMQTYGqkJagTuMoh9TvVCP1Twoo0AQmmsoArHBJAG33BYgUpQRtO8QoETEMHR9DBNLLxilMkQwsKgYEFgPecAaCBSkikXAUp4gXAXWEHUURREUaBoivk4iFZnJkFSbg/idjgCZS6UeoS4gIkaO+BETTIJBpwCiJsgh9KYIMpsjIBLfShAkQ4hSMEg5BYgIY1uMBdICU2yIn8wpB826AU/+OASFBKA2d4ARZDaL8tMq2SEnFAJk8AO4XoYZjEREgHTPCKD2CgCReLBw+EQIQ21CB8AyhCLjOVxK31UiIuTKHo7pBIpqFBBtAgIQO8t/+QSN7vIfnrYkWkWcVqJuQ0EivC5QgSjxu8ogxLKIjsOlGGV9wgAQgZw0Kz1k7nvDMiy8gnF+mJuWFKgIWDwKYEEtEQfzqzbhdxxTQNehAZMNMf5TuIDZzwijZgVKICIkgNykAED3AEfR+FyAu09x8U1JNXLJzA+ASFBF2iM4z/dEhAoQkRdFxQNW1bCAyw+cSDAIAcbxBG1IJKkEy8gQkP2AhSLQIBpl7hiCXlIgv/MYNeyHM05lOIS/9FSYuQYBt//c/8FIKGK8CrMUIiiDAWkAMwEI6tBLkAAt4QD43MtSK4YN/iEpK5kw6ksU78oGBvKsm5fVV/Fmli8EiaEGf/DG0UuM2tBB5pkDAU1SuYJYgZiPAMz3Z0d0nVqtIkNqWnim6v/0ia9hpD04IMlmaFpcgMzpBYH4USIX94ASjGS97xanAgKRDDLoALFoPA4xAmMK4g1Qc4ZG3yIKWF7j9gwD6nJuS6k+QiVxsig+Uy92gb6YQqWOC2y7a3IAlgRihEkJHPSsQS7+iuaZ07Gv3aQKYJJcF/WZvVhmxVIirwgicXtliN0IAIgFCIEYgAAIW0gwkXqPBxlwgRWvggw9GSgGrzyjT9/gMS0+OiK/hpXRK/VHR2s8E5pkzlKlMZHTLwxGmY2joNzAAhhghBDMZM5jKbmcwB4AcT+hCAM49Z/w4NIMc+2uxmOTSCCPuQg5v3TOYQBIAg6IOilQc9ZRXQ4hd3SEx3/yOAyJLWpEb+BwpUWq+DANi1ptKAhBjA6U572tMn2IZi0rWKhFgBAVFItapXzepVHyEDR2i1q2Eta1Urg9a1znUUDtEGQB/XHwJ4wqeH3WkwEi1xoyUyVA2yBtP1CwQIbjJWnzzFB8Fnj0ZC2UYJgoVpSOPb4A63uMMNRx2Mm9xxPDe4p5FudbtbGtNoh6+PZe33aGDRqfGTvfR6kDFg256WdjJhg2UnDbwj2Qb5g8IXzvCGN/wfYSAHD/7hcIX/Y5VTqfgf/uGIV2yA4hoP+R/MMW+Cg0ldaP98NL8PEoth0mEU3xXIpUH3WpNzsReV9sgFyOGH2AVXuAhQhI5t/qYrnAB5+y4yQrCnvRvRciAzb17Nib67K4Ag5hwRQSg2MQn2JqQDCyDEIoZOdRv56bwczqbh2Dc8qAscu2WfYovQoIuIrAEGici73hOhhwoZxARM2ILXEcIFJvBBvnF3zmpAAIONfwrSCXGTgQZgvajjr+Z00IDmN8/5zm+eMUUEgQ+s95BmQKNBIco5QaRADhMwmSDg0wsWmAAExK/I87jnvAVAXx9EXHFPkE8ICZLMtFK7fdoD9882isD85jv/+QMYABJO4AAUjAFqFEEo02JxkASw4BBxXev/gwfyAHKkwNEW0Z0/ns9+6CPBL2hIAiR+OJH8LiQXKh2t5QH6Wgk8QQZdEIACOIADWAW6EAQklxH4JzEg8HsEQQPFIASYIH4HcQBCkANTIFc7BgNqQIAeKIDDoAvglBH2pxDNcALTdUYy93YB9kwtAQGihRB3Zg8RBVTjRwELQARucFQ79jgpUYIKAYOJxT0riHxw54IsoQArxjRP8Hp64QFE0A+WBXuYBQ8f8Aoc0GC2p0TJRRJAqBCR4HJn8GX7p1zZxRIOgE0WgHV6UQ3gcAoGEAwXswTVIAaHYAAjaBA2oIXsNF8r8YUJgU/T5RguwIKYJmAuAYNqwgBPZxAP/3CFxuAED0AGKwAO+0AGD2AG7kAEH5AHCjEGkWBVH+OHKgGICYEIKqUHdmCINHeGK5EKX2BXwWQQmeAIH0AORJADGQBrOUAE4DANjlAHCoEOApAOIDBkHEWKPxh8DDEB2qdESEAPSJBYrdWKiOgSKUU5ybQQHQAEjcAHFRAFzMAHjUADTbIQoeUjFuAD5ziKvMQSppgQoDAKpmIXA0CNJcYQJ+YSw7CETHMCy+AQsYcQ/AU8cPIFUOSOFASPzNgQZSQx3VWNUueKLIGKlcIADjh4DEEPL9QvZxAdjLNjXTgS8ZgQChCLdiKRl0eRK0GMQ7SIAfk9P2cQEDAATKUB6f+geghhYcu4cg9RSPgWN9QGWzAxAyhUKScgYj43fgZhCY7CNuh3EDyJEiWpEFUDJirJfyzJEnfwa/9RBHpQCBp5EC5QNbtiAQOglLu0kH/YkA7RBR15JFlphtcIExMAYkjSPjPghOGCEOhgCUjAOq0jATqZEFN5ElWpENkol/m4EPsYEwrgbAvTC64AAfcFPsMwCA3EZYNJWyGpjFTplg6RClOVbY2pEI8ZEzIQmD0iJsjiA18WIGDRBZ6wCmXDmaKxQny5kyLJkD4ZEX0VlFqUfDBFE4FQNnKZDnchm6aRDlajInDiAI34me/Ylr8ZEai1LaeZEKkpEzLwBdjULzj/oiPPqCKU4QNRuZZc6JtKRxHDYGDHsp0I0Z0ysQyu4FjpMp5tUp420gtt14fVWYqiCRH8pZ1DKVA1UQi4cC4no59asSPQmSexOSS9aZ3tSRHngEknI58HUSKg0XlXMGAyMQN8AUMOahoOJAG94AMZmSnpgHsWMJIiEQFD4HkrdBGQUAQf6nkSwKEGYQdfsHzP5w8tdhOpgAgDcAVLcyO1AqHFISY3M6EUkQRNw37b4IMoITnspwGBVREoQAftVwTbwA4X8QcuUAVomqZoWnc8oQso0EBWEyn7SRwscgWj8AQQQH8VsQZq2qf3dRK00KdpyqYWgQ6CqqbzABsHsQZe/2CbEnAFQ3Ci/2ALM/KoGvAFuPACu6monEoSw+AFaCAA7sOcA8IASLAKdwAKediprLoShYB9yWEDw4B9rVqrMDGQtpqrLCEP4TBxuvqrL2EN3cAIwFqsxnqsyJqsyrqszNqszvqs0Bqt0qoSAYAM43Ct2Jqt2rqt3Nqt3vqt4Bqu4jqu5Fqu5nqu6Jqu4ooMf2YRB0AETBCv8jqv9Fqv9nqv+Jqv+rqv/Nqv/vqvABuwAjuw/EoEB3ARFKAMI7CwDNuwDvuwEBuxEjuxFFuxFnuxGJuxGruxHNuxFqsMFHARhRAAJFuyJnuyKJuyKruyLNuyLvuyMBuzMjuzNFuzNv8bs2I5rTq7szzbsz77s0AbtEI7tERbtEZ7tEibtEq7tEzbtEMrBwAQtQCwARfwUzagDxsgtVH7CIIgCM8gtRsABB0wEASwARtACgVxAVl7TgIRDJewD6jQWQIRAmarBALxB5SwAY8ATkqQtVq7AYbwD1j7DGP7D2RgtgeQAFoLto8wnQShBaJQAJcAD4JAELtwCQWACmRAEH27AZtLEHkrBZVbthtAYQNhA5KgtxiFtVQrB377t5SAtYs7tYzQBLO7AflguK8btRtAAAqhBZfQDTxQgwLBCGY7gf+QAI+wAfqAERRADodwCPGaAyxgtypQUdIbr0SADTUgB9zABNn/KwYVwBT/cAmwQAQpQH8HcAzQe7ACIQqvUAyHUAIDIQXn2w+dNQH98ApQQGGA8ArRG6+HAAsZWAqv8Aq++gAHLA8xQA4CHMBEAAVqpYcNUAuHIL+H0Ap6UQCncMGHEAo1JhA/cMBmQBD4cA9EsA7n1AAHfHgDAQYoDAURVVEWdQCv8MDSG4UGDL7RK72w0ACLcA/gK6+wYFQPQAQBHK+wsIMHMQEG0MHyKwTh9w8FcMDx9Q8iAAWwkALOGwW7eGtRgAALMHY3oIvKcMZHMA0dIAcj8GpgnAOhMIFZcAgZkAO1JxBOgACv5r7/0Aa6mANGMBCUUAwZIAZh8A8TwAJi//ABcUDFCJABZ3zGYpC7WCAG5cACGJUHOYAA2hANkHxrX3wEC8C2BWEKhxAF5XAEygBjAtEAp5zK5VAO4kC+BqDHRwAPAmEDJoBqFTC2bvDIqiB0A2ICYnAEH0BhWJADOVAPFFAOZ7yLkHwELJACzgzNkrwC1KAMbizJ1fAPeVAOn3zGxZAFCNEATBAF13AEsZwNd9wAjxwFdpsJ03APN9DF5SANwUAKVFAOhzAVNyAGqsAF1DBm0fAPATAC10AIjBAC1JzB/zDHGVAOVCAY1uANR7DHAlEDCxAFRyAGySDIhCzRE6ACiszIVCwGOcBmYxYClZvMGYAAcaXJCLCDMf9ADfmQAVEwDRQQDdHgeASxBEIQBTngBDv9ADWmBZUQBaEQBphQDeUgBqXwG7VcyDcgQ0Cgi1HQy//wy3V8A25x1bB2zP9QyTmABf8QAoagBR9QDtOgBcBgCNQQAnKgDmKAAK0QACHQBDGgDNcwDQRgCDEg19781GZgCNEQ2O1IEAdgDOUgBEzt1GIw0f/gzoVsVHEwDQhQzwiLylx3cZvcAP/wz6qwXgRBDSNQDjoQuK1QDMVgAA9Nx0eAAIf8z7CWAe6rCKqQATqQ1YU7yLuYA1zwDyXdyAUgBoZsEJVcx2XwD1KwyUz8D3OgzguQ2AWhDcVQDqUgtwPRCMWAAPL/9g/xsAmpjEdTfQR2/A+lgNVazdXmHdxUoIvGjMzKbNYCUQcLIAYLIAsFwQEIUAxgsddsXbgD8c0I8AMM4QjdbeDgzQyxLHSUfQTuEAw1MA3FoNkWQQGobAWC4QE5UAw7KNrCPBCmndCGMAsmkAOHwA+vfQuhkANUEAYWbQwY/Q+icAiEUADlcA30+w++3dFYkMiLTNzGfcgF4dLmDQZXPdMDEd3lsAACbhB5XAyi8HdicA3BLRAegABigAr/UMvK0OIpwAM5YAy3wNtbjQBfXg4pYAQ5oAq1EN9jjdL0/Q918AE5sADCSBD8XQxcLhAAPg0TPOBPbVQL0QaWnAYD//EDKB3ID44ABdABmG3hFYHhcVQAJnDR2WANoS0GGbAAVrAJ06DBB63K0rDR5bAJmfDatVAAu10JOZACJ27bAtEGxfAJihAKxXAJAuHb9lALUUADOIAAJl3cafzp0pAMboEFCKADH4AAe5AG5aDkAsHkTo4QbFAGOXANgkcQCVABzrzjHMfa3dDlCHALDRAKUVAJYuAELJAD643mBSDjtZADbfDeYp3MZT0QdX7neT4Qe97n/7DXqrwJnz4NxfXNR0AIxs4CBV0QgiANqRzil8Da8ubOyrDRH7ALm3AIkk4RGA5r5EAOxZADBWArNwDOxRDyRWzQbXwEh5AD5VAGqf/+2uIABLV8BNcABE7A6QcL6YfgBCogDcVwxYNcDvKQAsWQAu0+7JwuBiH/Cm8gQ1hQDCxgCo3tAcog7dAt3U9OEBOQ3rcA7gIRBIQQBbVA2v+w2q39D9WAANcADx5QzJVQAp+AAO8eBfhgBsUczMF+73Ku73aO5/vd3wC/17DGBCEfDlz+zREd8kTADZ9LEE0wDeCMRwLBCd1d8XpsBPftB5uQ2V2c8MmgDhxAA25zDv+sDPVgAO3AAY/A8lEwAuqgA2zdCQIxx+VAA6Sg7ingDHvwyAcLBkfg4X0s7GM3yDnAA1JQDGjM9FGAA6zPAfuQ7IewCWSwz7Xw0s9N7V3/PxDXnuPbPhATYA/fPhAIXgzjXst4fwCqgABOINx278sIUA5KoATRbgbnYO/yne/1DRAfciyo88+gQQ4IiqE6GEPZkREc2rXjMOVfnnJRrExsZyDAwYO2rJQ7AuZgq2LF2v1rgODalkbFat0ScwPkTZw5DVKIUs7KpJsqboiptesmtRHldCS4JOZQI4NZDpVL88/PKyD/2ojJcOCfqGIZplnRcaScon+UiuUwwqZCuQxHPsT5V0BMjjA4sRRbMCkM1wwI3BycY3ZBB53/9ogpxgnnYqoHPdzl8c8AgihbFB8q8c8KggqI3SAoZ9EEk85UxHwQ8Q/LXSwH6wgkeDPh/8KGysotiHcTI4IfiQ/yERPZ4GQxeVuW20LG3ZEM5WwKp76z56YEN8/dQKDKKEik5QjVIHOr3Jsm/6RG1lLAllauXtvkOFKMCVcxg9XmMPWPV1i56LIrOb0OOSyetwIbzKDCdkNMp32KKaeU7P6xoYZ/UEJgpX86eOsILSzDTDMlHHHGMzFC+2e00v6ZAioVWMiBNddyyCE2g2YbqCCQbmPIIIfKmQZDkH7zoDp+ihGDA4M6WOCaKDpbjgurEMggh+mqE46ncrALaihV0pBliSVEsCGApHQw5J8ycvBOvamqAmmrDCiYYJocKjAiDHlCQcCEfyRZq79MPogiwLrugv9jTDLT22sBWf7pw0rBCDPswZw6ESKKHPY4AJNugsPEnShu4UELDsoRowwVRMzsps9UZNGikFSj8bUbZaONx4N8zC0KHQ7IhMzWMBKDjzhEIJPImw4wplReDnCinBxKmYUl0qjc5RSzstRSJy69BGm7HDIgRAcdhFiADDmSIiQTbItxBE7jDqKTDHyiKMYJgybYZMYE9BnUIEeKQdSuDEJBVwdjiHHNwEgLjaJSBi8VDixOjQnlFT4MWqEYTk/JoZxj4DHosldBsiJF0Uij1SA2ZLzVRhz/0bG2HhX68R+HjlBmYUJYuIikWxa+Zd6cGgBZDJFJNhnbcqhU7C5vv8X/iQKFKqjwoHNSmCoHMRg7hpQgKikmFHgvyKEYe9Qjopg8bjpNHDL6IOKQygzi45BitNDnbjgMIkOIQ+b6BxAmqA1bDCKkYJOcDyJl6RAmViBs7Q8whTAUMRAgjReDzmnAm87FWCArg6ohRwzNVGaiH8RWYKKYl/+J+RAoWkuBCCLKOCiODwrnFSFyyNk5BHFGXrzwiyQEO2wiqtGJjQZUKf0DOesipxipaRCDnKqtBikILri4oJCbbAAjjfLbByKeQoDggob0mpCfiyaCkYKL1kCyhv0glIB98DIIJqSQhiUsIg1pwMRB8CEFGmTnAOxrHxfSEIN/gEEKW0jPPxZh/8EGGiQB5duCIKpDhgdoIgwhAskBwmAEKQijhfsj4EEukIYS/sOAXFgESP4AjzREUD3q4EAWDtIEGuCwgwfRghSkEIwjVrB9mhEBBdsnBa8kxoUw7OFBDrC//s1iC1KwhvjMeEY0plGNa2RjG934RjjGUY5zpGMd7XhHPOZRj3vkYx/9+EdA7nECCbBBIO9ojgRMwJCLxGMnPPBISDYADIX8RyZ+4Ac/ZA8nHLACC1iQRZCoQAom2IQ0qNAAr8gBkqv0gB9AeRMa8MEPP6ihJvzghLwcRAQ4YIEVzACUfjUAk7kskhP80IDspMEJrGzlgiYQhk9IQxpmAIIJGXlNOP+WgBsIWBxjyuEBRWLiGAggRwN0IoIPrIUIxGzSHtZSDmoRoWMxyAY3u4mAQ7QOJ/t4xfcW9A8T8I5fB5ECOGxUDgocsQKzE8ISQFKoQxwCdiwhQjfDRg6hTcAEh7CRQrjBQmyGdI0lMAZ0jtCTKGSACebEhBCOIAbL5QQIgMmBGW7ih0PEJQdRiAITvvGPaDwkLjyNwjVyoM+bSCUDUagAkeaDACYdBBBWutIDDjKJkQQmOAcpgJV80psGAOakPEUAFf7Bj5xG4QNvKAc3OiNSuKKRpEfIQQNiMIU38PQDNViCS2GqE4QtVUUG4UK5ouCOPlCAAtowZ1Dp6oQ5KFb/sVtLak4DAzqt5ACqBylEVjOwpKtm9QiVKOM/DvCc6FgBrGI4QihoEFnFhuAfKRgZFUQwCTDw4a1x5e235iqGvKHCSjlQggj8GlPtfCIHt6jEEa5R2n8kgyvlsGpIgPoQBBTgW0oVLGKeGlUdhuIIxqhFFOzRm39gFS6BuUEh+UDVr7KEtULoxE3YUAZ4pqBV/yiENXv7X+HMNQd5w0BYiGvclyIXJKQIRTlY8A195a1QdPUdThyb3e1a9rN5+e5BALAWE7DgUAQwiHrjQlca7EIcJ03tao9A303e40pQAXCNqSNgeUxiF1Q4FBSGddycpOEu9UiDjQD1DyWUCwF9/8iJY8tRjwvoQx+SUEJiuEtXKkxiD5oF7w8QMGBAUKbEIzlCCoRQDipQoRyhSEGL5dtaDERZH5SQbQmaWx8a21jPN5mruRZQCbgc4kgtTXBOfhA2OJDCMJGiAVyKgYEmC1VfKSFCCk6UE6kcgRApoNYDnMBlEW6iHNfQAgAOIYZkjJlampgMT2v6l/iGNQOfTUkxXpFLTVgJz3vmtUH6XI5D2NMEiCH0X28yATUXgxhsYAa1TJaHcj060ia1UQ6YkAIrH+II05ACoEuRgolFVQvPIoQcdnGNcqhIvWw5ALeiswtYq1a+s6aWjchBzK7GBQHs7DWA53qETdzgBu2gAf8wi63gnTwrFA2sR+cGcwFH7wwkjo1CGUwBBzjII246yXS5t3yEWwQmqhjgqE2EsYCiVnndgfPAlwHFg5HJW9bGKMDF4bACkM47CqFIaL9rLGAj5OTgOHmAlUbwCRyUJQc4MG1Kc3AkC2NXu1rqeBPwcQ3oiFxv9NEBDj4xgpdeIr0jyUHgDnCMclSZB8WR+XzrmxhAlOsQ5vS5v0vKFqED+SZO4EoUImrYD9RhEnlVaw0PcmHpUV3b5Z5tubQeD5RfKaIpFQOgJkD2wP3DAwNde6zdfpM/1IGSskC5g+tud7oGHSeEzgHCJ9HsIywgzSyoRWAclu8c+AGYB2is1DP/rOmPAMHxm92FKo5wBBZQ4RMLOP4HFqECzPerQp1v+4vfDpI9XEKRcSi9WU/fW6Dn/fgL8Hr5tRGKz1JpFh1QMwLMuYQPwKVLPzBBLRZw3ZPaAxD7B4QHnoaTjvuIrlEyJgGL2IsDNnAGRbgFujKZ6LsJ6lutDLgFP+C/H2iASagHjPoBHsuAufs+8Ls71bsJQluqarORNjsCHXAog+C7HPiEQuKCSigXVcmBQ6gA/IuLbnoFVuC4xfuIfxAyrTOBkTmyf0iABVAVy3lAkIjAebuS5Ymc01CVlEKAD4AiEIyrEjgFp9AEocOG4oAnMSyHUwA2KqCkfwgDJkAAbAgh4XgoBW+wETHQgR6MgTgcQ3giAmSAkIoyBiCcgFI4BHLggHgQgnsoJ5DYqENIgUmoAPuQB5wwgtmpALAiBzwsByuUBWtIAeuxkTLYrSwUqQQgAAJghC66iSYgRVVcRUYoRVIYn1ZkhCC4KkZ4gAegAR4RhFVkRWrQCUNoRQJAH4P4RUaIgVkoRUZglkpiBEagAEGgAGZck5tYBGakgD9Yxl0kxQN4DxU4gDwAADBYolAcR3IsR3M8R3RMR3VcR3ZsR3d8R3iMR3mcR3qsR3u8R3zMR33cR37sR3/8R4AMyD8KCAA7"/>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- /content -->
+      
+    </td>
+    <td></td>
+  </tr>
+</table>
+<!-- /footer -->
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+ellipsoid_code,semi-major_axis,datum_comment
+AA,6377563.396,Airy 1830
+AM,6377340.189,Airy Modified 1849
+AN,6378160,Australian National Spheroid
+AV,6378135,Average Terrestrial System 1977
+BR,6377397.155,"Bessel 1841 Ethiopia, Indonesia, Japan, and Korea"
+BN,6377483.865,Bessel 1841 Namibia
+BM,6377492.018,Bessel Modified
+CE,6378293.6,Clarke 1858
+CC,6378206.4,Clarke 1866
+CD,6378249.145,Clarke 1880
+CB,6378300.789,Clarke 1880 (Benoit)
+CI,6378306.37,Clarke 1880 (international foot)
+DN,6377019.27,Danish 1876
+EB,6377298.556,Everest Brunei and E. Malaysia (Sabah and Sarawak)
+EA,6377276.345,Everest 1830 (1937 Adjustment) India
+EG,6377301.243,Everest India 1956
+EC,6377301.243,Everest 1830 (1962 Definition)
+EH,6377299.151,Everest 1830 (1975 Definition)
+EF,6377309.613,Everest Pakistan
+EE,6377304.063,Everest W. Malaysia and Singapore 1948
+ED,6377295.664,Everest W. Malaysia 1969
+RE,6378160,Geodetic Reference System 1967
+RD,6378160,Geodetic Reference System 1967 Modified
+RF,6378137,Geodetic Reference System 1980
+HE,6378200,Helmert 1906
+HO,6378270,Hough 1960
+ID,6378160,Indonesian 1974
+IN,6378388,International 1924
+KA,6378245,Krassowsky 1940
+FA,6378155,Modified Fischer 1960
+PZ,6378136,PZ-90
+SA,6378160,South American 1969
+WC,6378145,WGS 1966
+WO,6378300,War Office
+WD,6378135,WGS 1972
+WE,6378137,WGS84

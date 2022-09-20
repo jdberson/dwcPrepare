@@ -1,0 +1,104 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# dwcPrepare
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of dwcPrepare is to make it easier to prepare biodiversity data that use Darwin Core terms.
+
+More specifically, dwcPrepare can help with georeferencing and formatting date / date-time data.
+
+dwcPrepare is under active development - please be aware that there may be errors!
+
+
+
+## Installation
+
+You can install the development version of dwcPrepare from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jdberson/dwcPrepare")
+```
+
+## Getting started
+
+First load the package:
+
+```{r message=FALSE}
+library("dwcPrepare")
+library("dplyr")
+
+```
+
+dwcPrepare comes with a small mock data set - Let's load the data and take a quick look.
+
+```{r}
+data("thylacine_data")
+
+thylacine_data
+
+```
+
+We want to provide some georeferencing information for this data, format the data-time information and change  column names to Darwin Core terms.
+
+The fist step is to ensure we have all the information we need for georeferencing. For this we use the  function dwc_coordinates.
+
+We need to tell the function which columns in our data contain the longitude and latitude, as well as whether the coordinates are in decimal degrees, degrees minutes seconds or degrees decimal minutes, and the EPSG code for the coordinate reference system.  
+
+If the coordinate reference system is not known then "unknown" can be used. However, we recommend trying to determine the coordinate reference system as a value of "unknown" will likely increase the uncertainty associated with the coordinates. See  for more information. 
+
+```{r}
+
+# Note that we can use the mutate() function from the dyplr package to include
+#  the new colimns with our data.
+thylacine_data_1 <-
+  thylacine_data |>
+  mutate(dwc_coordinates(lon = longitude_dms, 
+                         lat = latitude_dms, 
+                         verbatimCoordinateSystem = "degrees minutes seconds", 
+                         verbatimSRS = "EPSG:4326"))
+
+```
+
+The next step is to include the Darwin Core term coordinatePrecision. We use the dwc_coordinatePrecision function to do this.
+
+```{r}
+thylacine_data_2 <- 
+thylacine_data_1 |>
+  mutate(coordinatePrecision  = dwc_coordinatePrecision(
+    verbatimLongitude = verbatimLongitude,
+    verbatimLatitude = verbatimLatitude,
+    precision = 1, 
+    unit = "seconds"))
+
+```
+
+We now have all the information we need to calculate the uncertainty associated with the geographic coordinates. This is given by the Darwin Core term coordinateUncertaintyInMeters. We use the dwc_coordinateUncertaintyInMeters function to calculate this.
+
+```{r}
+
+thylacine_data_3 <-
+  thylacine_data_2 |>
+  mutate(coordinateUncertaintyInMeters = 
+           dwc_coordinateUncertaintyInMeters(decimalLatitude = decimalLatitude,
+                                             coordinatePrecision = coordinatePrecision,
+                                             geodeticDatum = geodeticDatum,
+                                             gps_uncertainty = gps_uncertainty))
+
+```
+
