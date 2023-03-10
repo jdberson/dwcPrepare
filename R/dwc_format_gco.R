@@ -1,7 +1,7 @@
 #' Format the output of \url{http://georeferencing.org/georefcalculator/gc.html}
 #'
-#' The \url{http://georeferencing.org/georefcalculator/gc.html} georeferencing
-#' calculator allows for the results to be output by selecting 'Copy' and then
+#' The online [georeferencingcalculator](http://georeferencing.org/georefcalculator/gc.html)
+#' allows for the results to be output by selecting 'Copy' and then
 #' pasted into a spreadsheet. This function takes the output as an argument and
 #' formats it as a \code{\link[tibble]{tibble}}.
 #'

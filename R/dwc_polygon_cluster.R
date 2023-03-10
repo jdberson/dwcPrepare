@@ -2,7 +2,7 @@
 #'
 #' This function identifies polygons that intersect in some way. Its main use is
 #' to identify sites within a data set that cover the same or similar area, and
-#' could be considered a single site. A cluster identifuer (\code{.cluster}) is
+#' could be considered a single site. A cluster identifier (\code{.cluster}) is
 #' assigned to each polygon, with intersecting polygons identified by a common
 #' \code{.cluster} id.
 #'

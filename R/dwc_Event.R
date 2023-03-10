@@ -12,12 +12,12 @@
 #' @param start The start date or date-time of the sampling event. Accepts
 #' character strings with dates in one of the following formats: "dmy HMS"
 #' (eg, "24/12/2012 15:45:00"), "ymd HMS" (eg, "2012-12-24 15:45:00"), "dmy"
-#' (eg, "24/12/2012" or "ymd" (eg, "2012-12-24").
+#' (eg, "24/12/2012") or "ymd" (eg, "2012-12-24").
 #' @param end The end date or date-time of the sampling event. Default is NA.
 #' @param time_NA_value Where a mixture of dates/date-times occur, the dates
 #' without times are often assigned a time of 00:00:00. This is the default
 #' value here, and is used so that the eventDate field is shown correctly. We
-#' suggest being very cautious if changing the default.
+#' suggest being cautious if changing the default.
 #' @param tzone The timezone of the date-time passed to
 #' \code{\link[lubridate]{parse_date_time}}. The default is "UTC".
 #' @param sampleSizeUnit The unit of time for calculating the length of the
@@ -73,14 +73,12 @@
 #' # The returned tibble will be added to an existing dataframe if combined with
 #' #  dplyr's mutate, for example:
 #'
-#' library("dplyr")
-#'
 #' # Load data
 #' data("thylacine_data")
 #'
 #' # Use dwc_Event withe dplyr::mutate()
 #' thylacine_data |>
-#'   mutate(dwc_Event(start = date_trap_setup,
+#'   dplyr::mutate(dwc_Event(start = date_trap_setup,
 #'                    end = date_trap_collected))
 #'
 dwc_Event <- function(

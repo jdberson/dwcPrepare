@@ -1,8 +1,8 @@
 #' Locality descriptor for given longitude/latitude coordinates
 #'
 #' This function finds the closest locality to the given point location, as well
-#' as the distance and direction of the closest locality from the focal
-#' location. The returned string could be used in the Darwin Core
+#' as its distance and direction from the focal location. The returned string
+#' could be used in the Darwin Core
 #' \href{http://rs.tdwg.org/dwc/terms/locality}{locality} field.
 #'
 #' @param decimalLongitude The longitude of the focal point in decimal degrees.
@@ -36,8 +36,10 @@
 #'
 #'
 #'dwc_locality(
-#'  decimalLongitude = 115.949465, decimalLatitude = -32.029655,
-#'  localities_sf = localities_sf, localities_names = "name"
+#'  decimalLongitude = 115.949465,
+#'  decimalLatitude = -32.029655,
+#'  localities_sf = localities_sf,
+#'  localities_names = "name"
 #'  )
 #'
 # Vectorise the (not exported) dwc_locality_scalar function (see following

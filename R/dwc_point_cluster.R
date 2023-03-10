@@ -29,8 +29,11 @@
 #'latitude = c(-31.709, -31.707, -31.713, -32.339, -32.339, -32.344)
 #')
 #'
-#' dwc_point_cluster(df, "longitude", "latitude",
-#'                    hclust_method = "average",  h = 5000)
+#' dwc_point_cluster(df = df,
+#'                   longitude = "longitude",
+#'                   latitude = "latitude",
+#'                   hclust_method = "average",
+#'                   h = 5000)
 dwc_point_cluster <- function(df, longitude, latitude,
                              distm_method = geosphere::distHaversine,
                              hclust_method = "average",

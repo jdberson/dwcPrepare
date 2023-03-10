@@ -47,7 +47,8 @@
 #' Surveying and Mapping, ICSM) 2018, under a Creative Commons Attribution 4.0
 #' International license. See \url{https://placenames.fsdf.org.au/}. Note that
 #' data received has been subset so that only the NAME field and geometry
-#' column are retained in the sf object. NAME has been renamed to locality_name.
+#' column are retained in the sf object. NAME in the original data has been
+#' renamed to locality_name.
 #'
 #' @format An sf object with 16197 features (rows) and 1 fields (variables):
 #' \describe{
@@ -61,8 +62,9 @@
 #'
 #' Calculating coordinate precision uncertainty requires the values for the
 #' semi-major axis and the ellipsoid flattening for the specified coordinate
-#' reference system. This data uses \code{\link[sf]{st_crs}} to extract the
-#' values from the EPSG codes.
+#' reference system. These data were generated using \code{\link[sf]{st_crs}} to
+#' extract the the semi-major axis and ellipsoid flattening values from the EPSG
+#' codes.
 #'
 #' @format A data frame with 869 rows and 4 variables:
 #' \describe{

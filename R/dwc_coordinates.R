@@ -3,7 +3,7 @@
 #' This function prepares the raw (verbatim) coordinate information and if
 #' necessary, converts coordinates from 'degrees minutes seconds' or 'degrees
 #' decimal minutes' to 'decimal degrees' using the R package
-#' [parzer](https://docs.ropensci.org/parzer/).Where longitude and latitude are
+#' [parzer](https://docs.ropensci.org/parzer/). Where longitude and latitude are
 #' provided in decimal degrees, this function will round these to a maximum of
 #' seven decimal places.
 #'
@@ -24,9 +24,13 @@
 #' @examples
 #' data("thylacine_data")
 #' thylacine_data |>
-#' dplyr::mutate(dwc_coordinates(longitude = longitude_dms, latitude = latitude_dms,
-#' verbatimCoordinateSystem = "degrees minutes seconds",
-#' verbatimSRS = "EPSG:4326"))
+#'   dplyr::mutate(
+#'       dwc_coordinates(
+#'       longitude = longitude_dms,
+#'       latitude = latitude_dms,
+#'       verbatimCoordinateSystem = "degrees minutes seconds",
+#'       verbatimSRS = "EPSG:4326")
+#'       )
 dwc_coordinates <- function(
     longitude,
     latitude,

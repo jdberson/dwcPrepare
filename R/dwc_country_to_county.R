@@ -21,8 +21,8 @@
 #' the countryCode of the country in which the county is found. The default
 #' value is "countryCode".
 #' @param stateProvince_column_name The column name in \code{county_sf} that
-#' gives the State or Province in which the county is found.The default value is
-#' "stateProvince".
+#' gives the State or Province in which the county is found. The default value
+#' is "stateProvince".
 #' @param county_column_name The column name in \code{county_sf} that gives the
 #' county name. The default value is "county".
 #' @inheritParams dwc_locality
