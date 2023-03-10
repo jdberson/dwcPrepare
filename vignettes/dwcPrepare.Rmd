@@ -1,0 +1,200 @@
+---
+title: "dwcPrepare"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{dwcPrepare}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Overview
+
+This vignette shows how to use `dwcPrepare` to help prepare biodiversity data that use [Darwin Core](https://dwc.tdwg.org/) terms.   
+
+Currently, a number of Darwin Core [Event](https://dwc.tdwg.org/terms/#event) and [Location](https://dwc.tdwg.org/terms/#location) terms are supported by the package. We think that the most useful part of the package will be to generate some of the Darwin Core [Location](https://dwc.tdwg.org/terms/#location) terms that require a level of 'calculation'.  
+
+More particularly, the package can be used to calculate the [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters) for a large number of point locations. If you have a small number of locations, you may wish to use the the online [Georeferencing Calculator](http://georeferencing.org/georefcalculator/gc.html) (Wieczorek and Wieczorek 2021). This has more options than we provide here, including calculating the uncertainty from an unknown datum. We relied heavily on this calculator and associated documentation when writing this package. Output from the calculator can be formatted for use in R using the `dwc_format_gco()` function.  
+
+Most functions in the package can take data from a single location / event directly as part of their arguments. However, on most occasions, we will have a spreadsheet with multiple locations / events that we wish to format following [Darwin Core](https://dwc.tdwg.org/) terms. The following examples show how to use `dwcPrepare` with `dplyr::mutate()` in the case where we have multiple locations / events. Please see the individual help files for examples with a single location / event.  
+
+## Darwin Core Location terms
+
+First let's walk through generating the Darwin Core Location terms. 
+
+### Load packages
+
+```{r setup, message=FALSE, warning=FALSE}
+library(dwcPrepare)
+library(dplyr)
+
+```
+
+### Prepare raw data
+
+`dwcPrepare` comes with a small mock data set - Let's load the data and take a quick look.
+
+```{r}
+data("thylacine_data")
+
+thylacine_data
+# see ?thylacine_data for more information
+
+```
+
+You will see that the data include latitude and longitude in three formats: decimal degrees (_dd), degrees minutes seconds (_dms) and degrees decimal minutes (_ddm). These are the three formats supported by `dwcPrepare`, which uses the [parzer](https://docs.ropensci.org/parzer/) R package to convert coordinates to decimal degrees if needed. We have included all three formats so that users can choose which format to use when trying out the functions. Here we choose degrees minutes seconds for this vignette.
+
+```{r}
+thylacine_data <-
+  thylacine_data |>
+  select(-c(longitude_dd:latitude_dms))
+```
+### Location terms step-by-step
+
+We can now go through building up the location terms step by step.  
+
+First, we use `dwc_coordinates()` to do some checks, get our longitude and latitude in the right format, and record some basic information:
+
+```{r}
+thylacine_data_a <- 
+  thylacine_data |>
+  mutate(
+    dwc_coordinates(longitude = longitude_ddm, 
+                    latitude = latitude_ddm,
+                    verbatimCoordinateSystem = "degrees decimal minutes",
+                    verbatimSRS = "EPSG:4326")
+  )
+```
+
+Two things to note from the above. One is that `dwc_coordinates()` is called inside of `dplyr::mutate()`. If, like above, a `tibble::tibble()` is returned by the `dwcPrepare` function, then there is no need to specify a column name within `dplyr::mutate()`. However, if a single vector is returned, then a column name needs to be specified (see the next code chunk).
+
+The other thing to note is that by giving strings to the verbatimCoordinateSystem and verbatimSRS, we are telling `dwc_coordinates()` that these values apply to all rows in the dataframe.  
+
+Next we calculate the precision of our coordinates:
+
+```{r}
+thylacine_data_b <- 
+  thylacine_data_a |>
+  mutate(coordinatePrecision =
+           dwc_coordinatePrecision(verbatimLatitude = verbatimLatitude,
+                                   verbatimLongitude = verbatimLongitude,
+                                   verbatimCoordinateSystem = verbatimCoordinateSystem)
+         )
+```
+
+We now have all the information we need to calculate the coordinate uncertainty in meters:
+
+```{r}
+thylacine_data_c <- 
+  thylacine_data_b |>
+  mutate(coordinateUncertaintyInMeters =
+           dwc_coordinateUncertaintyInMeters(
+             decimalLatitude = decimalLatitude,
+             coordinatePrecision = coordinatePrecision,
+             geodeticDatum = geodeticDatum,
+             gps_uncertainty = gps_uncertainty)
+  )
+```
+
+Next, if we have a shape file with the country, countryCode, stateProvince and county information for our area of interest, we can use `dwc_contry_to_county()` to assign these values for each of our points.  
+
+`dwcPrepare` includes shape file for the area where our mock data were collected.  
+
+**Warning:** The `dwc_contry_to_county()` function differs to the other `dwcPrepare` functions in two ways. First, is not wrapped in `dplyr::mutate()` when applying to a dataframe. Also, column names are given as strings. We may update this in a future version of the package.
+
+```{r}
+# Load the sf object with the county shape files that include the country, 
+# countryCode, stateProvince and county information for the area of interest
+data("county_tas")
+
+thylacine_data_d <- 
+  dwc_country_to_county(
+    thylacine_data_c,
+                    decimalLongitude = "decimalLongitude",
+                    decimalLatitude = "decimalLatitude",
+                    county_sf = county_tas,
+                    country_column_name = "country",
+                    countryCode_column_name = "countryCode",
+                    stateProvince_column_name = "stateProvince",
+                    county_column_name = "county"
+    )
+```
+
+Finally, a useful feature of `dwcPrepare` is providing information that can be used in the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) field using `dwc_locality()`.  
+
+This function does require an [sf](https://r-spatial.github.io/sf/index.html) POINT object that includes the locality names and their longitude and latitude for the area of interest. `dwcPrepare` comes with this object for Australian localities (`locality_data_aus()`).
+
+```{r}
+# load localities data
+data("locality_data_aus")
+
+thylacine_data_e <-
+  thylacine_data_d |>
+  mutate(locality = 
+           dwc_locality(
+             decimalLongitude = decimalLongitude,
+             decimalLatitude = decimalLatitude,
+             localities_sf = locality_data_aus,
+             localities_names = "locality_name")
+         )
+
+
+
+```
+### Location terms with one function
+
+Our final dataframe above, thylacine_data_e, includes the Darwin Core Location fields: [decimalLatitude](http://rs.tdwg.org/dwc/terms/decimalLatitude), [decimalLongitude](http://rs.tdwg.org/dwc/terms/decimalLongitude), [geodeticDatum](http://rs.tdwg.org/dwc/terms/geodeticDatum), [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters), [coordinatePrecision](http://rs.tdwg.org/dwc/terms/coordinatePrecision), [verbatimLatitude](http://rs.tdwg.org/dwc/terms/verbatimLatitude), [verbatimLongitude](http://rs.tdwg.org/dwc/terms/verbatimLongitude), [verbatimCoordinateSystem](http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem), [verbatimSRS](http://rs.tdwg.org/dwc/terms/verbatimSRS), [country](http://rs.tdwg.org/dwc/terms/country), [countryCode](http://rs.tdwg.org/dwc/terms/countryCode), [stateProvince](http://rs.tdwg.org/dwc/terms/stateProvince), [county](http://rs.tdwg.org/dwc/terms/county) and [locality](http://rs.tdwg.org/dwc/terms/locality).  
+
+Rather than generating these terms step-by-step, we can use the wrapper function `dwc_Location()` to do everything in one step:
+
+```{r}
+thylacine_data_location <- 
+  thylacine_data |>
+  mutate(
+    dwc_Location(
+      longitude = longitude_ddm,
+      latitude = latitude_ddm,
+      verbatimCoordinateSystem = "degrees decimal minutes",
+      verbatimSRS = "EPSG:4326",
+      gps_uncertainty = gps_uncertainty,
+      localities_sf = locality_data_aus,
+      localities_names = "locality_name",
+      county_sf = county_tas)
+  )
+```
+
+Much easier!
+
+## Darwin Core Event terms
+
+There is only a single function for Darwin Core [Event](https://dwc.tdwg.org/terms/#event) terms: `dwc_Event()`. This is because the [lubridate](https://lubridate.tidyverse.org/) R package already includes many functions that can be used to calculate Darwin Core [Event](https://dwc.tdwg.org/terms/#event) terms. `dwc_Event()` provides a wrapper for a series of [lubridate](https://lubridate.tidyverse.org/) functions, and experienced R users may prefer to use the [lubridate](https://lubridate.tidyverse.org/) functions directly (we have found `dwc_Event()` to be slow for large datasets).  
+
+The Darwin Core terms returned by `dwc_Event()` are:  [eventDate](http://rs.tdwg.org/dwc/terms/eventDate), [startDayOfYear](http://rs.tdwg.org/dwc/terms/startDayOfYear),
+[endDayOfYear](http://rs.tdwg.org/dwc/terms/endDayOfYear), [year](http://rs.tdwg.org/dwc/terms/year),
+[month](http://rs.tdwg.org/dwc/terms/month), [day](http://rs.tdwg.org/dwc/terms/day), [verbatimEventDate](http://rs.tdwg.org/dwc/terms/verbatimEventDate), and optionally [fieldNumber](http://rs.tdwg.org/dwc/terms/fieldNumber),
+[habitat](http://rs.tdwg.org/dwc/terms/habitat), [samplingProtocol](http://rs.tdwg.org/dwc/terms/samplingProtocol),  [samplingEffort](http://rs.tdwg.org/dwc/terms/samplingEffort), [fieldNotes](http://rs.tdwg.org/dwc/terms/fieldNotes) and [eventRemarks](http://rs.tdwg.org/dwc/terms/eventRemarks). If both start and end date/date-time are supplied the function will also return: [sampleSizeValue](http://rs.tdwg.org/dwc/terms/sampleSizeValue), [sampleSizeUnit](http://rs.tdwg.org/dwc/terms/sampleSizeUnit).
+
+For example, using our `thylacine_data()`
+
+```{r}
+thylacine_data_event <- 
+thylacine_data |>
+  mutate(dwc_Event(
+    start = date_trap_setup,
+    end = date_trap_collected,
+    tzone = "Australia/Hobart",
+    samplingEffort = "1 trap"
+  ))
+```
+
+
+## References
+
+Wieczorek C, J Wieczorek (2021) Georeferencing Calculator. Available: http://georeferencing.org/georefcalculator/gc.html. Accessed [2023-03-09].

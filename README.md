@@ -6,14 +6,19 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+## Overview
+
 The goal of dwcPrepare is to make it easier to prepare biodiversity data
-that use Darwin Core terms.
+that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
-More specifically, dwcPrepare can help with georeferencing and
-formatting date / date-time data.
-
-dwcPrepare is under active development - please be aware that there may
-be errors!
+Our current focus has been the Darwin Core
+[Location](https://dwc.tdwg.org/terms/#location) terms. For users with
+established data processing pipelines, the most useful functions are
+likely to be `dwc_coordinateUncertaintyInMeters()`, which as the name
+suggests, calculates the
+[coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters),
+and the `dwc_locality()` function that provides text for the Darwin Core
+[locality](http://rs.tdwg.org/dwc/terms/locality) term.
 
 ## Installation
 
@@ -27,90 +32,69 @@ devtools::install_github("jdberson/dwcPrepare")
 
 ## Getting started
 
-First load the package:
+All functions in the package start with **dwc\_** as the prefix,
+generally followed by the name of the Darwin Core field. For example,
+`dwc_coordinateUncertaintyInMeters()` will calculate the value for the
+Darwin Core
+[coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters)
+field.
+
+Exceptions to this rule are utility functions (`dwc_format_gco()`,
+`dwc_point_cluster()` and `dwc_polygon_cluster()`) or if a function
+returns multiple Darwin Core fields (`dwc_coordinates()`,
+`dwc_country_to_county()`, `dwc_Event()` and `dwc_Location()`).
+
+The `dwc_Event()` and `dwc_Location()` functions provide wrappers that
+can be used with `dplyr::mutate()` to generate all of the Darwin Core
+[Event](https://dwc.tdwg.org/terms/#event) and
+[Location](https://dwc.tdwg.org/terms/#location) terms supported by
+`dwcPrepare`.
+
+For example, using the toy dataset that comes shipped with the package:
 
 ``` r
+#Load packages
 library("dwcPrepare")
 library("dplyr")
-```
+library("tibble")
 
-dwcPrepare comes with a small mock data set - Let’s load the data and
-take a quick look.
-
-``` r
+#Load data
 data("thylacine_data")
 
-thylacine_data
-#> # A tibble: 8 × 13
-#>   site   trap    date_…¹ date_…² longi…³ latit…⁴ longi…⁵ latit…⁶ longi…⁷ latit…⁸
-#>   <chr>  <chr>   <chr>   <chr>     <dbl>   <dbl> <chr>   <chr>   <chr>   <chr>  
-#> 1 Sumac  Sumac 1 05/09/… 06/09/…    145.   -41.2 144 58… 41 10 … 144 58… 41 10.…
-#> 2 Sumac  Sumac 2 05/09/… 06/09/…    145.   -41.2 144 59… 41 12 … 144 59… 41 12.…
-#> 3 Sumac  Sumac 1 05/10/… 06/10/…    145.   -41.2 144 58… 41 10 … 144 58… 41 10.…
-#> 4 Sumac  Sumac 2 05/10/… 06/10/…    145.   -41.2 144 59… 41 12 … 144 59… 41 12.…
-#> 5 Picton Picton… 10/09/… 11/09/…    147.   -43.3 146 42… 43 15 … 146 42… 43 15.…
-#> 6 Picton Picton… 10/09/… 11/09/…    147.   -43.2 146 41… 43 13 … 146 41… 43 13.…
-#> 7 Picton Picton… 10/10/… 11/10/…    147.   -43.3 146 42… 43 15 … 146 42… 43 15.…
-#> 8 Picton Picton… 10/10/… 11/10/…    147.   -43.2 146 41… 43 13 … 146 41… 43 13.…
-#> # … with 3 more variables: gps_uncertainty <dbl>, species <chr>, count <dbl>,
-#> #   and abbreviated variable names ¹​date_trap_setup, ²​date_trap_collected,
-#> #   ³​longitude_dd, ⁴​latitude_dd, ⁵​longitude_dms, ⁶​latitude_dms, ⁷​longitude_ddm,
-#> #   ⁸​latitude_ddm
+#Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
+thylacine_data |>
+  mutate(dwc_Event(
+    start = date_trap_setup,
+    end = date_trap_collected,
+    tzone = "Australia/Hobart",
+    samplingEffort = "1 trap"
+  ))
+
+#Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
+thylacine_data |>
+mutate(dwc_Location(
+  longitude = longitude_dd,
+  latitude = latitude_dd,
+  verbatimCoordinateSystem = "decimal degrees",
+  verbatimSRS = "EPSG:4326",
+  gps_uncertainty = gps_uncertainty,
+  localities_sf = locality_data_aus,
+  localities_names = "locality_name",
+  county_sf = county_tas))
 ```
 
-We want to provide some georeferencing information for this data, format
-the data-time information and change column names to Darwin Core terms.
+See `vignette("dwcPrepare")` for more help with getting started.
 
-The fist step is to ensure we have all the information we need for
-georeferencing. For this we use the function dwc_coordinates.
+## Citation
 
-We need to tell the function which columns in our data contain the
-longitude and latitude, as well as whether the coordinates are in
-decimal degrees, degrees minutes seconds or degrees decimal minutes, and
-the EPSG code for the coordinate reference system.
+The package can be cited as:
 
-If the coordinate reference system is not known then “unknown” can be
-used. However, we recommend trying to determine the coordinate reference
-system as a value of “unknown” will likely increase the uncertainty
-associated with the coordinates. See for more information.
+Berson J, Manger J (2023). dwcPrepare: Helps Prepare Data for use in a
+Darwin Core Archive. R package version 0.0.0.9000,
+<https://github.com/jdberson/dwcPrepare>.
 
-``` r
+## Issues
 
-# Note that we can use the mutate() function from the dyplr package to include
-#  the new colimns with our data.
-thylacine_data_1 <-
-  thylacine_data |>
-  mutate(dwc_coordinates(lon = longitude_dms, 
-                         lat = latitude_dms, 
-                         verbatimCoordinateSystem = "degrees minutes seconds", 
-                         verbatimSRS = "EPSG:4326"))
-```
-
-The next step is to include the Darwin Core term coordinatePrecision. We
-use the dwc_coordinatePrecision function to do this.
-
-``` r
-thylacine_data_2 <- 
-thylacine_data_1 |>
-  mutate(coordinatePrecision  = dwc_coordinatePrecision(
-    verbatimLongitude = verbatimLongitude,
-    verbatimLatitude = verbatimLatitude,
-    precision = 1, 
-    unit = "seconds"))
-```
-
-We now have all the information we need to calculate the uncertainty
-associated with the geographic coordinates. This is given by the Darwin
-Core term coordinateUncertaintyInMeters. We use the
-dwc_coordinateUncertaintyInMeters function to calculate this.
-
-``` r
-
-thylacine_data_3 <-
-  thylacine_data_2 |>
-  mutate(coordinateUncertaintyInMeters = 
-           dwc_coordinateUncertaintyInMeters(decimalLatitude = decimalLatitude,
-                                             coordinatePrecision = coordinatePrecision,
-                                             geodeticDatum = geodeticDatum,
-                                             gps_uncertainty = gps_uncertainty))
-```
+If you find an error or a bug we would love to hear from you! Please let
+us know what you have found by creating an issue at
+<https://github.com/jdberson/dwcPrepare/issues>.

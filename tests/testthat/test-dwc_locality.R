@@ -10,17 +10,34 @@ test_that("dwc_locality function works", {
   string_locality <-
     dwc_locality(
       decimalLongitude = 115.949465, decimalLatitude = -32.029655,
-      localityPointLocations_sf = localityPointLocations_sf,
-      locationName = "name")
+      localities_sf = localityPointLocations_sf,
+      localities_names = "name")
 
   expect_equal(string_locality, "161 km SE A")
 })
 
 test_that("dwc_locality function works with internal data", {
 
+  data("locality_data_aus")
+
   string_locality <-
     dwc_locality(decimalLongitude = 117.093225,
-                 decimalLatitude = -33.110168)
+                 decimalLatitude = -33.110168,
+                 localities_sf = locality_data_aus,
+                 localities_names = "locality_name")
 
   expect_equal(string_locality, "13 km N DUMBERNING")
+})
+
+
+test_that("dwc_locality error message works", {
+
+  # Checks on decimal degrees -----------------------------------------------
+
+  expect_error(dwc_locality(decimalLongitude = 117.093225,
+                            decimalLatitude = -33.110168,
+                            localities_sf = locality_data_aus,
+                            localities_names = "wrong_names"),
+               "wrong_names not found in the localities_sf object")
+
 })

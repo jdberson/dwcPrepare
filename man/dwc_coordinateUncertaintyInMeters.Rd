@@ -28,8 +28,8 @@ Default is 30.}
 }
 \value{
 A numeric. A value that can be used in the Darwin Core
-coordinateUncertaintyInMeters field.
-See: \url{http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters}.
+\href{http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters}{coordinateUncertaintyInMeters}
+field.
 }
 \description{
 This function calculates the uncertainty in meters associated with a given

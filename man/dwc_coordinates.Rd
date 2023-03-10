@@ -4,30 +4,22 @@
 \alias{dwc_coordinates}
 \title{Prepare geographic coordinates and convert to decimal degrees if needed}
 \usage{
-dwc_coordinates(
-  locationID,
-  lon,
-  lat,
-  verbatimCoordinateSystem,
-  verbatimSRS = "unknown"
-)
+dwc_coordinates(longitude, latitude, verbatimCoordinateSystem, verbatimSRS)
 }
 \arguments{
-\item{locationID}{The location identifier. See:
-\url{http://rs.tdwg.org/dwc/terms/locationID}}
+\item{longitude}{The longitude of the given coordinates This will be assigned
+to \href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude}
+in the returned tibble. Must be a character value if the coordinates are in
+"degrees decimal minutes" or "degrees minutes seconds".}
 
-\item{lon}{Longitude. This will be assigned to "verbatimLongitude" in the
-returned tibble. See: \url{http://rs.tdwg.org/dwc/terms/verbatimLongitude}.
-Note that this must be a character value if \code{lon} is in "degrees decimal
-minutes" or "degrees minutes seconds".}
+\item{latitude}{The latitude of the given coordinates This will be assigned
+to \href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude}
+in the returned tibble. Must be a character value if the coordinates are in
+"degrees decimal minutes" or "degrees minutes seconds".}
 
-\item{lat}{Latitude. This will be assigned to "verbatimLatitude" in the
-returned tibble. See: \url{http://rs.tdwg.org/dwc/terms/verbatimLatitude}.
-Note that this must be a character value if \code{lat} is in "degrees decimal
-minutes" or "degrees minutes seconds".}
-
-\item{verbatimCoordinateSystem}{Supported terms are "decimal degrees",
-"degrees decimal minutes" or "degrees minutes seconds". See:
+\item{verbatimCoordinateSystem}{The format of the longitude and latitude
+coordinates. Supported terms are "decimal degrees", "degrees decimal minutes"
+or "degrees minutes seconds". See:
 \url{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}}
 
 \item{verbatimSRS}{The spatial reference system associated with the
@@ -35,24 +27,27 @@ coordinates. Given as an EPSG code as in the example: "EPSG:4326". See:
 \url{http://rs.tdwg.org/dwc/terms/verbatimSRS}.}
 }
 \value{
-A \code{\link[tibble]{tibble}} with Darwin Core terms decimalLongitude,
-decimalLatitude, geodeticDatum, verbatimLongitude, verbatimLatitude,
-verbatimCoordinateSystem and verbatimSRS.
+A \code{\link[tibble]{tibble}} with Darwin Core terms
+\href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{decimalLatitude},
+\href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{decimalLongitude},
+\href{http://rs.tdwg.org/dwc/terms/geodeticDatum}{geodeticDatum},
+\href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude},
+\href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude},
+\href{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}{verbatimCoordinateSystem}
+and \href{http://rs.tdwg.org/dwc/terms/verbatimSRS}{verbatimSRS}.
 }
 \description{
 This function prepares the raw (verbatim) coordinate information and if
 necessary, converts coordinates from 'degrees minutes seconds' or 'degrees
 decimal minutes' to 'decimal degrees' using the R package
-\href{https://docs.ropensci.org/parzer/}{parzer}.
-}
-\details{
-Note that where longitude and latitude are provided in decimal degrees, this
-function will round these to a maximum of seven decimal places.
+\href{https://docs.ropensci.org/parzer/}{parzer}.Where longitude and latitude are
+provided in decimal degrees, this function will round these to a maximum of
+seven decimal places.
 }
 \examples{
 data("thylacine_data")
 thylacine_data |>
-dplyr::mutate(dwc_coordinates(lon = longitude_dms, lat = latitude_dms,
+dplyr::mutate(dwc_coordinates(longitude = longitude_dms, latitude = latitude_dms,
 verbatimCoordinateSystem = "degrees minutes seconds",
 verbatimSRS = "EPSG:4326"))
 }

@@ -32,13 +32,13 @@
 #' @param geodeticDatum Output of \code{\link[dwcPrepare]{dwc_coordinates}}. The
 #' spatial reference system associated with the coordinates. Given as an EPSG
 #' code as in the example: "EPSG:4326". See: \url{http://rs.tdwg.org/dwc/terms/geodeticDatum}.
-#' @param gps_uncertainty The uncertainty in meters recorded by the GPS device.
-#' Default is 30.
+#' @inheritParams dwc_Location
 #'
 #' @return
 #' A numeric. A value that can be used in the Darwin Core
-#' coordinateUncertaintyInMeters field.
-#' See: \url{http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters}.
+#' \href{http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters}{coordinateUncertaintyInMeters}
+#' field.
+#'
 #' @export
 #'
 #' @examples
@@ -82,7 +82,7 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
     crs_data <- dwcPrepare::crs_data
 
     # Check that given EPSG is in crs_data
-    if(!geodeticDatum %in% c(crs_data |> dplyr::pull(epsg_code))){
+    if(!geodeticDatum %in% c(crs_data |> dplyr::pull(.data$epsg_code))){
       base::stop(stringr::str_c(
         geodeticDatum, ' is not a currently supported geodeticDatum. For a list of
       supported EPSG codes please see the epsg_code column in data("crs_data").'
@@ -93,15 +93,15 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
     # Extract semi_major_axis for EPSG
     a <-
       crs_data |>
-      dplyr::filter(epsg_code == geodeticDatum) %>%
-      dplyr::pull(semi_major_axis)
+      dplyr::filter(.data$epsg_code == geodeticDatum) |>
+      dplyr::pull(.data$semi_major_axis)
 
     # Extract flattenting for EPSG
     f <-
       1 /
       crs_data |>
-      dplyr::filter(epsg_code == geodeticDatum) %>%
-      dplyr::pull(inverse_flattening)
+      dplyr::filter(.data$epsg_code == geodeticDatum) |>
+      dplyr::pull(.data$inverse_flattening)
 
     # Calculate coordinatePrecisionUncertainty
     latitude_radians <-
@@ -134,7 +134,7 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
   # Calculate coordinateUncertaintyInMeters as sum of gps_uncertainty and
   # coordinatePrecisionUncertainty
   coordinateUncertaintyInMeters <-
-    coordinatePrecisionUncertainty + gps_uncertainty
+    base::round(coordinatePrecisionUncertainty + gps_uncertainty, 0)
 
   return(coordinateUncertaintyInMeters)
 

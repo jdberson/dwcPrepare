@@ -11,6 +11,7 @@ An sf object with 27 features (rows) and 4 fields (variables):
 \item{countryCode}{\url{http://rs.tdwg.org/dwc/terms/countryCode}}
 \item{stateProvince}{\url{http://rs.tdwg.org/dwc/terms/stateProvince}}
 \item{county}{\url{http://rs.tdwg.org/dwc/terms/county}}
+\item{geometry}{simple feature geometries}
 }
 }
 \usage{

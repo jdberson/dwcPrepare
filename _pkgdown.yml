@@ -1,0 +1,43 @@
+url: ~
+template:
+  bootstrap: 5
+
+reference:
+- title: Main functions
+  desc: >
+    Higher level functions that act as wrappers.
+  contents:
+  - dwc_Event
+  - dwc_Location
+
+- title: Functions that return multiple Darwin Core terms
+  desc: >
+    These functions return a subset of terms included in dwc_Location
+  contents:
+  - dwc_coordinates
+  - dwc_country_to_county
+
+- title: Functions that return a single Darwin Core term
+  descr: >
+    These functions return the Darwin Core term given in their name
+  contents:
+  - dwc_coordinatePrecision
+  - dwc_coordinateUncertaintyInMeters
+  - dwc_locality
+
+- title: Utility functions
+  descr: >
+    These functions can be helpful when preparing biodiversity data.
+  contents:
+  - dwc_format_gco
+  - dwc_point_cluster
+  - dwc_polygon_cluster
+
+- title: data
+  descr: >
+    dwcPrepare comes with several datasets
+  contents:
+  - county_tas
+  - crs_data
+  - locality_data_aus
+  - thylacine_data

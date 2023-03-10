@@ -35,8 +35,27 @@
 #'   \item{countryCode}{\url{http://rs.tdwg.org/dwc/terms/countryCode}}
 #'   \item{stateProvince}{\url{http://rs.tdwg.org/dwc/terms/stateProvince}}
 #'   \item{county}{\url{http://rs.tdwg.org/dwc/terms/county}}
+#'   \item{geometry}{simple feature geometries}
 #' }
 "county_tas"
+
+
+#' sf POINT object of Australian localities
+#'
+#' Data is from "Elvis - Place Names - Foundation Spatial Data - Locality Data",
+#' sourced from Commonwealth of Australia (The Intergovernmental Committee on
+#' Surveying and Mapping, ICSM) 2018, under a Creative Commons Attribution 4.0
+#' International license. See \url{https://placenames.fsdf.org.au/}. Note that
+#' data received has been subset so that only the NAME field and geometry
+#' column are retained in the sf object. NAME has been renamed to locality_name.
+#'
+#' @format An sf object with 16197 features (rows) and 1 fields (variables):
+#' \describe{
+#'   \item{locality_name}{name of the locality}
+#'   \item{geometry}{simple feature geometries}
+#' }
+"locality_data_aus"
+
 
 #' Data for semi-major axis and ellipsoid flattening for EPSG codes
 #'

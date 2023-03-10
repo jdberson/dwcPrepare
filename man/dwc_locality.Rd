@@ -7,37 +7,42 @@
 dwc_locality(
   decimalLongitude,
   decimalLatitude,
-  localityPointLocations_sf = dwcPrepare:::locality_data_aus,
-  locationName = "localityName",
+  localities_sf,
+  localities_names,
   ...
 )
 }
 \arguments{
-\item{decimalLongitude}{The longitude of the focal point}
+\item{decimalLongitude}{The longitude of the focal point in decimal degrees.
+Output of \code{\link[dwcPrepare]{dwc_coordinates}}.
+See: \url{http://rs.tdwg.org/dwc/terms/decimalLongitude}.}
 
-\item{decimalLatitude}{The latitude of the focal point}
+\item{decimalLatitude}{The latitude of the focal point in decimal degrees.
+Output of \code{\link[dwcPrepare]{dwc_coordinates}}.
+See: \url{http://rs.tdwg.org/dwc/terms/decimalLatitude}.}
 
-\item{localityPointLocations_sf}{An \code{sf} POINT object. Points must be in
-longitude / latitude. If no object is given the function uses internal data
-that contains Australian locality information.}
+\item{localities_sf}{An \code{sf POINT} object that provides
+locality names as well as their longitude and latitude for all localities
+within the area of interest. The package includes the locality information
+for Australia. See \code{\link[dwcPrepare]{locality_data_aus}}}
 
-\item{locationName}{The column name in
-\code{localityPointLocations_sf} that gives the location name. If using the
-default data this should be left at the default value "localityName".}
+\item{localities_names}{The column name in \code{localities_sf} that gives
+the locality name.}
 
 \item{...}{Additional arguments passed to \code{\link[sf]{st_distance}}}
 }
 \value{
 A string that could be used in the Darwin Core locality field,
-\url{https://dwc.tdwg.org/terms/#location}.
+\url{http://rs.tdwg.org/dwc/terms/locality}.
 }
 \description{
-This function finds the closest location from a set of candidate locations to
-the given longitude/latitude, as well as the name of the closest location,
-and the direction of the closest location from the focal longitude/latitude.
+This function finds the closest locality to the given point location, as well
+as the distance and direction of the closest locality from the focal
+location. The returned string could be used in the Darwin Core
+\href{http://rs.tdwg.org/dwc/terms/locality}{locality} field.
 }
 \examples{
-localityPointLocations_sf <-
+localities_sf <-
 sf::st_as_sf(data.frame(
  name = c("A", "B", "C"),
  lon = c(117.093225, 127.502052, 115.674972),
@@ -48,7 +53,7 @@ sf::st_as_sf(data.frame(
 
 dwc_locality(
  decimalLongitude = 115.949465, decimalLatitude = -32.029655,
- localityPointLocations_sf = localityPointLocations_sf, locationName = "name"
+ localities_sf = localities_sf, localities_names = "name"
  )
 
 }

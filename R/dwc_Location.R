@@ -1,0 +1,159 @@
+#' Prepare Darwin Core Location fields
+#'
+#' This function takes a data frame with point locations in longitude and
+#' latitude and returns the Darwin Core Location fields
+#' \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{decimalLatitude},
+#' \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{decimalLongitude},
+#' \href{http://rs.tdwg.org/dwc/terms/geodeticDatum}{geodeticDatum},
+#' \href{http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters}{coordinateUncertaintyInMeters},
+#' \href{http://rs.tdwg.org/dwc/terms/coordinatePrecision}{coordinatePrecision},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}{verbatimCoordinateSystem},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimSRS}{verbatimSRS} and optionally
+#' \href{http://rs.tdwg.org/dwc/terms/country}{country},
+#' \href{http://rs.tdwg.org/dwc/terms/countryCode}{countryCode},
+#' \href{http://rs.tdwg.org/dwc/terms/stateProvince}{stateProvince},
+#' \href{http://rs.tdwg.org/dwc/terms/county}{county} and
+#' \href{http://rs.tdwg.org/dwc/terms/locality}{locality}.The function is a
+#' wrapper function that combines the dwcPrepare functions
+#' \code{\link{dwc_coordinates}},
+#' \code{\link{dwc_coordinatePrecision}},
+#' \code{\link{dwc_coordinateUncertaintyInMeters}},
+#' \code{\link{dwc_country_to_county}} and
+#' \code{\link{dwc_locality}}. See the help pages of these functions
+#' for further details.
+#'
+#' @param longitude The longitude of the given coordinates This will be assigned
+#' to \href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude}
+#' in the returned tibble. Must be a character value if the coordinates are in
+#' "degrees decimal minutes" or "degrees minutes seconds".
+#' @param latitude The latitude of the given coordinates This will be assigned
+#' to \href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude}
+#' in the returned tibble. Must be a character value if the coordinates are in
+#' "degrees decimal minutes" or "degrees minutes seconds".
+#' @param verbatimCoordinateSystem The format of the longitude and latitude
+#' coordinates. Supported terms are "decimal degrees", "degrees decimal minutes"
+#' or "degrees minutes seconds". See:
+#' \url{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}
+#' @param verbatimSRS The spatial reference system associated with the
+#' coordinates. Given as an EPSG code as in the example: "EPSG:4326". See:
+#' \url{http://rs.tdwg.org/dwc/terms/verbatimSRS}.
+#' @param gps_uncertainty The uncertainty in meters recorded by the GPS device.
+#' Default is 30.
+#' @param localities_sf An optional \code{sf POINT} object that provides
+#' locality names as well as their longitude and latitude for all localities
+#' within the area of interest. The package includes the locality information
+#' for Australia. See \code{\link[dwcPrepare]{locality_data_aus}}. If provided,
+#' the dwc_locality field will be returned. Default is NULL.
+#' @param localities_names The column name in \code{localities_sf} that gives
+#' the locality name.
+#' @param county_sf An optional \code{sf POLYGON} object that includes the
+#' county boundaries along with the higher geography features. Column names
+#' must match the Darwin Core terms country, countryCode, stateProvince and
+#' county. If provided, the Darwin Core terms country, countryCode,
+#' stateProvince and county will be returned for each location. Default is NULL.
+#'
+#' @return
+#' A \code{\link[tibble]{tibble}} with Darwin Core terms
+#' \href{http://rs.tdwg.org/dwc/terms/decimalLatitude}{decimalLatitude},
+#' \href{http://rs.tdwg.org/dwc/terms/decimalLongitude}{decimalLongitude},
+#' \href{http://rs.tdwg.org/dwc/terms/geodeticDatum}{geodeticDatum},
+#' \href{http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters}{coordinateUncertaintyInMeters},
+#' \href{http://rs.tdwg.org/dwc/terms/coordinatePrecision}{coordinatePrecision},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}{verbatimCoordinateSystem},
+#' \href{http://rs.tdwg.org/dwc/terms/verbatimSRS}{verbatimSRS} and optionally
+#' \href{http://rs.tdwg.org/dwc/terms/country}{country},
+#' \href{http://rs.tdwg.org/dwc/terms/countryCode}{countryCode},
+#' \href{http://rs.tdwg.org/dwc/terms/stateProvince}{stateProvince},
+#' \href{http://rs.tdwg.org/dwc/terms/county}{county} and
+#' \href{http://rs.tdwg.org/dwc/terms/locality}{locality}.
+#'
+#' @export
+#'
+#' @examples
+#' library("dplyr")
+#'
+#' data("thylacine_data")
+#' data("locality_data_aus")
+#' data("county_tas")
+#'
+#' thylacine_data |>
+#' mutate(dwc_Location(
+#'   longitude = longitude_dd,
+#'   latitude = latitude_dd,
+#'   verbatimCoordinateSystem = "decimal degrees",
+#'   verbatimSRS = "EPSG:4326",
+#'   gps_uncertainty = gps_uncertainty,
+#'   localities_sf = locality_data_aus,
+#'   localities_names = "locality_name",
+#'   county_sf = county_tas))
+dwc_Location <- function(longitude,
+                         latitude,
+                         verbatimCoordinateSystem,
+                         verbatimSRS,
+                         gps_uncertainty = 30,
+                         localities_sf = NULL,
+                         localities_names = NULL,
+                         county_sf = NULL){
+
+  df1 <-
+    dwcPrepare::dwc_coordinates(
+      longitude = longitude,
+      latitude = latitude,
+      verbatimCoordinateSystem = verbatimCoordinateSystem,
+      verbatimSRS = verbatimSRS) |>
+
+    dplyr::mutate(coordinatePrecision =
+                    dwcPrepare::dwc_coordinatePrecision(verbatimLatitude = .data$verbatimLatitude,
+                                            verbatimLongitude = .data$verbatimLongitude,
+                                            verbatimCoordinateSystem = .data$verbatimCoordinateSystem),
+                  .after = .data$geodeticDatum) |>
+
+    dplyr::mutate(coordinateUncertaintyInMeters =
+                    dwcPrepare::dwc_coordinateUncertaintyInMeters(
+      decimalLatitude = .data$decimalLatitude,
+      coordinatePrecision = .data$coordinatePrecision,
+      geodeticDatum = .data$geodeticDatum,
+      gps_uncertainty = gps_uncertainty),
+      .before = .data$coordinatePrecision)
+
+  if(!base::is.null(county_sf)) {
+    df1 <-
+      df1 |>
+      dwcPrepare::dwc_country_to_county(
+        decimalLongitude = "decimalLongitude",
+        decimalLatitude = "decimalLatitude",
+        county_sf = county_sf) |>
+      dplyr::relocate(.data$country:.data$county, .before = .data$decimalLatitude)
+
+  }
+
+  if(!base::is.null(localities_sf)){
+
+    if(base::is.null(localities_names)){
+      base::stop(
+        "localities_names must be supplied if providing localities_sf",
+        call. = FALSE
+      )
+    }
+
+    df1 <-
+      df1 |>
+      dplyr::mutate(locality =
+                      dwcPrepare::dwc_locality(decimalLongitude = .data$decimalLongitude,
+                                            decimalLatitude = .data$decimalLatitude,
+                                            localities_sf  = localities_sf,
+                                            localities_names = localities_names),
+                    .before = .data$decimalLatitude)
+  }
+
+
+
+  return(df1)
+
+
+
+}

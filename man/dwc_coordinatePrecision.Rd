@@ -7,8 +7,7 @@
 dwc_coordinatePrecision(
   verbatimLongitude,
   verbatimLatitude,
-  precision = NULL,
-  unit = NULL
+  verbatimCoordinateSystem
 )
 }
 \arguments{
@@ -18,13 +17,10 @@ See: \url{http://rs.tdwg.org/dwc/terms/verbatimLongitude}.}
 \item{verbatimLatitude}{Output of \code{\link[dwcPrepare]{dwc_coordinates}}.
 See: \url{http://rs.tdwg.org/dwc/terms/verbatimLatitude}.}
 
-\item{precision}{The precision of the coordinates. Only provide a value if
-verbatimLongitude and verbatimLatitude are in "degrees minutes seconds" or
-"degrees decimal minutes", or if you wish to override the function and
-specify the precision for all coordinates. Default is NULL.}
-
-\item{unit}{The unit of precision (one of either "degrees", "minutes" or
-"seconds"). Only provide a value if precision is given.}
+\item{verbatimCoordinateSystem}{The format of the longitude and latitude
+coordinates. Supported terms are "decimal degrees", "degrees decimal minutes"
+or "degrees minutes seconds". See:
+\url{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}}
 }
 \value{
 A numeric. A value that can be used in the Darwin Core coordinatePrecision
@@ -33,13 +29,19 @@ maximum precision returned is 0.00001 degrees, or approximately 1.11 m at the
 equator.
 }
 \description{
-If verbatimLongitude and verbatimLatitude are in decimal degrees, this
-function will use the coordinate values to calculate coordinate precision.
-Alternatively, the coordinate precision can be assigned by specifying both
-the precision and unit arguments. The precision and unit arguments must be
-supplied if the verbatim coordinates are in "degrees minutes seconds" or
-"degrees decimal minutes".
+This function calculates the precision of geographic coordinates.
 }
 \examples{
-dwc_coordinatePrecision(144.9786, -41.17472)
+# For a single point
+dwc_coordinatePrecision(144.9786, -41.17472,
+verbatimCoordinateSystem = "decimal degrees")
+
+# For a set of points
+data("thylacine_data")
+thylacine_data |>
+dplyr::mutate(coordinatePrecision =
+dwc_coordinatePrecision(verbatimLatitude = latitude_dd,
+                        verbatimLongitude = longitude_dd,
+                        verbatimCoordinateSystem = "decimal degrees"))
+
 }
