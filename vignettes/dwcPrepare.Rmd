@@ -49,7 +49,7 @@ thylacine_data
 
 ```
 
-You will see that the data include latitude and longitude in three formats: decimal degrees (_dd), degrees minutes seconds (_dms) and degrees decimal minutes (_ddm). These are the three formats supported by `dwcPrepare`, which uses the [parzer](https://docs.ropensci.org/parzer/) R package to convert coordinates to decimal degrees if needed. We have included all three formats so that users can choose which format to use when trying out the functions. Here we choose degrees minutes seconds for this vignette.
+You will see that the data include latitude and longitude in three formats: decimal degrees (_dd), degrees minutes seconds (_dms) and degrees decimal minutes (_ddm). These are the three formats supported by `dwcPrepare`, which uses the [parzer](https://docs.ropensci.org/parzer/) R package to convert coordinates to decimal degrees if needed. We have included all three formats so that users can choose which format to use when trying out the functions. Here we choose degrees minutes seconds for this vignette, so we'll remove unnecessary columns:
 
 ```{r}
 thylacine_data <-
@@ -66,10 +66,12 @@ First, we use `dwc_coordinates()` to do some checks, get our longitude and latit
 thylacine_data_a <- 
   thylacine_data |>
   mutate(
-    dwc_coordinates(longitude = longitude_ddm, 
-                    latitude = latitude_ddm,
-                    verbatimCoordinateSystem = "degrees decimal minutes",
-                    verbatimSRS = "EPSG:4326")
+    dwc_coordinates(
+      longitude = longitude_ddm, 
+      latitude = latitude_ddm,
+      verbatimCoordinateSystem = "degrees decimal minutes",
+      verbatimSRS = "EPSG:4326"
+    )
   )
 ```
 
@@ -82,11 +84,13 @@ Next we calculate the precision of our coordinates:
 ```{r}
 thylacine_data_b <- 
   thylacine_data_a |>
-  mutate(coordinatePrecision =
-           dwc_coordinatePrecision(verbatimLatitude = verbatimLatitude,
-                                   verbatimLongitude = verbatimLongitude,
-                                   verbatimCoordinateSystem = verbatimCoordinateSystem)
-         )
+  mutate(
+    coordinatePrecision = dwc_coordinatePrecision(
+      verbatimLatitude = verbatimLatitude,
+      verbatimLongitude = verbatimLongitude,
+      verbatimCoordinateSystem = verbatimCoordinateSystem
+    )
+  )
 ```
 
 We now have all the information we need to calculate the coordinate uncertainty in meters:
@@ -94,12 +98,13 @@ We now have all the information we need to calculate the coordinate uncertainty 
 ```{r}
 thylacine_data_c <- 
   thylacine_data_b |>
-  mutate(coordinateUncertaintyInMeters =
-           dwc_coordinateUncertaintyInMeters(
-             decimalLatitude = decimalLatitude,
-             coordinatePrecision = coordinatePrecision,
-             geodeticDatum = geodeticDatum,
-             gps_uncertainty = gps_uncertainty)
+  mutate(
+    coordinateUncertaintyInMeters = dwc_coordinateUncertaintyInMeters(
+       decimalLatitude = decimalLatitude,
+       coordinatePrecision = coordinatePrecision,
+       geodeticDatum = geodeticDatum,
+       gps_uncertainty = gps_uncertainty
+    )
   )
 ```
 
@@ -117,14 +122,14 @@ data("county_tas")
 thylacine_data_d <- 
   dwc_country_to_county(
     thylacine_data_c,
-                    decimalLongitude = "decimalLongitude",
-                    decimalLatitude = "decimalLatitude",
-                    county_sf = county_tas,
-                    country_column_name = "country",
-                    countryCode_column_name = "countryCode",
-                    stateProvince_column_name = "stateProvince",
-                    county_column_name = "county"
-    )
+    decimalLongitude = "decimalLongitude",
+    decimalLatitude = "decimalLatitude",
+    county_sf = county_tas,
+    country_column_name = "country",
+    countryCode_column_name = "countryCode",
+    stateProvince_column_name = "stateProvince",
+    county_column_name = "county"
+  )
 ```
 
 Finally, a useful feature of `dwcPrepare` is providing information that can be used in the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) field using `dwc_locality()`.  
@@ -137,13 +142,14 @@ data("locality_data_aus")
 
 thylacine_data_e <-
   thylacine_data_d |>
-  mutate(locality = 
-           dwc_locality(
-             decimalLongitude = decimalLongitude,
-             decimalLatitude = decimalLatitude,
-             localities_sf = locality_data_aus,
-             localities_names = "locality_name")
-         )
+  mutate(
+    locality = dwc_locality(
+      decimalLongitude = decimalLongitude,
+      decimalLatitude = decimalLatitude,
+      localities_sf = locality_data_aus,
+      localities_names = "locality_name"
+    )
+  )
 
 
 
@@ -166,7 +172,8 @@ thylacine_data_location <-
       gps_uncertainty = gps_uncertainty,
       localities_sf = locality_data_aus,
       localities_names = "locality_name",
-      county_sf = county_tas)
+      county_sf = county_tas
+    )
   )
 ```
 
@@ -186,12 +193,14 @@ For example, using our `thylacine_data()`
 ```{r}
 thylacine_data_event <- 
 thylacine_data |>
-  mutate(dwc_Event(
-    start = date_trap_setup,
-    end = date_trap_collected,
-    tzone = "Australia/Hobart",
-    samplingEffort = "1 trap"
-  ))
+  mutate(
+    dwc_Event(
+      start = date_trap_setup,
+      end = date_trap_collected,
+      tzone = "Australia/Hobart",
+      samplingEffort = "1 trap"
+    )
+  )
 ```
 
 
