@@ -126,6 +126,4 @@ dwc_locality_scalar <-
       stringr::str_c(nearest_point_distance_km, " km ", bearing, " ",
                      nearest_point_label)
     )
-
-
   }
