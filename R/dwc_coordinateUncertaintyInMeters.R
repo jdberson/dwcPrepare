@@ -47,12 +47,14 @@ dwc_coordinateUncertaintyInMeters <-
   function(decimalLatitude,
            coordinatePrecision,
            geodeticDatum,
-           gps_uncertainty = 30){
-
-    purrr::pmap_dbl(.l = list(decimalLatitude, coordinatePrecision,
-                    geodeticDatum,  gps_uncertainty),
-                    .f = dwc_coordinateUncertaintyInMeters_scalar)
-
+           gps_uncertainty = 30) {
+    purrr::pmap_dbl(
+      .l = list(
+        decimalLatitude, coordinatePrecision,
+        geodeticDatum, gps_uncertainty
+      ),
+      .f = dwc_coordinateUncertaintyInMeters_scalar
+    )
   }
 
 # Note: the above function vectorises dwc_coordinateUncertaintyInMeters_scalar
@@ -60,19 +62,17 @@ dwc_coordinateUncertaintyInMeters <-
 # Workhorse - function that calculates the coordinateUncertaintyInMeters
 # Not exported.
 dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
-                                              coordinatePrecision,
-                                              geodeticDatum,
-                                              gps_uncertainty){
-
+                                                     coordinatePrecision,
+                                                     geodeticDatum,
+                                                     gps_uncertainty) {
   # We first calculate the uncertainty associated with the coordinatePrecision
 
   # Extract semi_major_axis ("a" in equations) and  flattening ("f" in
   # equations) for the given EPSG code using the crs_data
 
-  if(geodeticDatum != "unknown"){
-
+  if (geodeticDatum != "unknown") {
     # Check coordinatePrecision is betweeen 0.00001 and 1
-    if(base::any(coordinatePrecision > 1 || coordinatePrecision < 0.00001)){
+    if (base::any(coordinatePrecision > 1 || coordinatePrecision < 0.00001)) {
       base::stop(
         "coordinatePrecision must "
       )
@@ -82,7 +82,7 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
     crs_data <- dwcPrepare::crs_data
 
     # Check that given EPSG is in crs_data
-    if(!geodeticDatum %in% c(crs_data |> dplyr::pull(.data$epsg_code))){
+    if (!geodeticDatum %in% c(crs_data |> dplyr::pull(.data$epsg_code))) {
       base::stop(stringr::str_c(
         geodeticDatum, ' is not a currently supported geodeticDatum. For a list of
       supported EPSG codes please see the epsg_code column in data("crs_data").'
@@ -99,16 +99,16 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
     # Extract flattenting for EPSG
     f <-
       1 /
-      crs_data |>
-      dplyr::filter(.data$epsg_code == geodeticDatum) |>
-      dplyr::pull(.data$inverse_flattening)
+        crs_data |>
+          dplyr::filter(.data$epsg_code == geodeticDatum) |>
+          dplyr::pull(.data$inverse_flattening)
 
     # Calculate coordinatePrecisionUncertainty
     latitude_radians <-
       base::pi * decimalLatitude / 180
 
     e_squared <-
-      2*f - f^2
+      2 * f - f^2
 
     N <-
       a / base::sqrt(1 - e_squared * base::sin(latitude_radians)^2)
@@ -116,20 +116,21 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
     X <- base::abs(N * cos(latitude_radians))
 
     R <-
-      a * (1 - e_squared) / (1 - e_squared * base::sin(latitude_radians)^2 )^(3/2)
+      a * (1 - e_squared) / (1 - e_squared * base::sin(latitude_radians)^2)^(3 / 2)
 
     longitude_error <-
-      base::pi*X*coordinatePrecision / 180
+      base::pi * X * coordinatePrecision / 180
 
     latitude_error <-
-      base::pi*R*coordinatePrecision / 180
+      base::pi * R * coordinatePrecision / 180
 
     coordinatePrecisionUncertainty <-
       base::sqrt(latitude_error^2 + longitude_error^2)
-  } else
+  } else {
 
     # Assign coordinatePrecisionUncertainty of 1,000m if datum unknown
     coordinatePrecisionUncertainty <- 5359
+  }
 
   # Calculate coordinateUncertaintyInMeters as sum of gps_uncertainty and
   # coordinatePrecisionUncertainty
@@ -137,6 +138,4 @@ dwc_coordinateUncertaintyInMeters_scalar <- function(decimalLatitude,
     base::round(coordinatePrecisionUncertainty + gps_uncertainty, 0)
 
   return(coordinateUncertaintyInMeters)
-
-
 }

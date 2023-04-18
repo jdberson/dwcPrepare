@@ -1,23 +1,27 @@
 test_that("dwc_format_gco works", {
-
   dwc_format_gco_TestData1 <-
-  tibble::tribble(
-    ~location_identifier, ~decimalLatitude,	~decimalLongitude,	~geodeticDatum,
-    ~coordinateUncertaintyInMeters,	~coordinatePrecision,
-    ~georeferencedBy, ~gereferenceDate,	~georeferenceProtocol,
-
-    "A", "10.27", "-123.6", "(WGS84) World Geodetic System 1984", "1557",
-    "1e-07", "Joe Bloggs", "2022-08-31T12:19:26.466Z",
-    "Georeferencing Quick Reference Guide. 2020") |>
+    tibble::tribble(
+      ~location_identifier, ~decimalLatitude, ~decimalLongitude, ~geodeticDatum,
+      ~coordinateUncertaintyInMeters, ~coordinatePrecision,
+      ~georeferencedBy, ~gereferenceDate, ~georeferenceProtocol,
+      "A", "10.27", "-123.6", "(WGS84) World Geodetic System 1984", "1557",
+      "1e-07", "Joe Bloggs", "2022-08-31T12:19:26.466Z",
+      "Georeferencing Quick Reference Guide. 2020"
+    ) |>
     dplyr::mutate(
-      dplyr::across(.cols = tidyselect::contains(c("decimal", "coordinate")),
-                    ~base::as.numeric(.x)))
+      dplyr::across(
+        .cols = tidyselect::contains(c("decimal", "coordinate")),
+        ~ base::as.numeric(.x)
+      )
+    )
 
 
   dwc_format_gco_TestData2 <-
     dwc_format_gco("A", "10.27	-123.6	(WGS84) World Geodetic System 1984	1557	0.0000001	Joe Bloggs	2022-08-31T12:19:26.466Z	Georeferencing Quick Reference Guide. 2020")
 
 
-  expect_equal(dwc_format_gco_TestData1,
-               dwc_format_gco_TestData2)
+  expect_equal(
+    dwc_format_gco_TestData1,
+    dwc_format_gco_TestData2
+  )
 })

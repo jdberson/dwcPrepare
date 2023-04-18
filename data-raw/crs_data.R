@@ -7,7 +7,7 @@ library("dbplyr")
 
 
 # Function that uses sf::st_crs to extract data from crs info
-epsg_info <- function(code){
+epsg_info <- function(code) {
   tibble::tibble(
     epsg_code = stringr::str_c("EPSG:", code),
     name = sf::st_crs(code)$Name,
@@ -27,7 +27,7 @@ epsg <-
 
 # Obtain epsg info for all lon / lat epsg codes
 crs_data <-
-purrr::map_df(epsg$code, epsg_info)
+  purrr::map_df(epsg$code, epsg_info)
 
 # Save the data
 usethis::use_data(crs_data, overwrite = TRUE)

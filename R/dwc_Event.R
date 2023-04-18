@@ -78,8 +78,10 @@
 #'
 #' # Use dwc_Event withe dplyr::mutate()
 #' thylacine_data |>
-#'   dplyr::mutate(dwc_Event(start = date_trap_setup,
-#'                    end = date_trap_collected))
+#'   dplyr::mutate(dwc_Event(
+#'     start = date_trap_setup,
+#'     end = date_trap_collected
+#'   ))
 #'
 dwc_Event <- function(
     start,
@@ -92,26 +94,26 @@ dwc_Event <- function(
     samplingProtocol = NA,
     samplingEffort = NA,
     fieldNotes = NA,
-    eventRemarks = NA){
-
-  purrr::pmap_df(.l = list(
-    start,
-    end,
-    time_NA_value,
-    tzone,
-    sampleSizeUnit,
-    fieldNumber,
-    habitat,
-    samplingProtocol,
-    samplingEffort,
-    fieldNotes,
-    eventRemarks),
-    .f = dwc_Event_scalar) |>
-
+    eventRemarks = NA) {
+  purrr::pmap_df(
+    .l = list(
+      start,
+      end,
+      time_NA_value,
+      tzone,
+      sampleSizeUnit,
+      fieldNumber,
+      habitat,
+      samplingProtocol,
+      samplingEffort,
+      fieldNotes,
+      eventRemarks
+    ),
+    .f = dwc_Event_scalar
+  ) |>
     dplyr::select(tidyselect::where(
-      ~!base::all(base::is.na(.x))
+      ~ !base::all(base::is.na(.x))
     ))
-
 }
 
 
@@ -126,43 +128,43 @@ dwc_Event_scalar <- function(start,
                              samplingEffort,
                              fieldNotes,
                              eventRemarks) {
-
   # If both a start and end date/datetime are given the interval information is
   # calculated
-  if(!base::is.na(end)) {
-
+  if (!base::is.na(end)) {
     start_d <- lubridate::parse_date_time(start,
-                                        c("dmy HMS", "ymd HMS", "dmy", "ymd"),
-                                        tz = tzone)
+      c("dmy HMS", "ymd HMS", "dmy", "ymd"),
+      tz = tzone
+    )
 
     end_d <- lubridate::parse_date_time(end,
-                                        c("dmy HMS", "ymd HMS", "dmy", "ymd"),
-                                        tz = tzone)
+      c("dmy HMS", "ymd HMS", "dmy", "ymd"),
+      tz = tzone
+    )
 
     # If either the start of finish have NA time, assign both values to date
     # precision for eventDate and the event_interval
-    if(
+    if (
       hms::as_hms(start_d) == hms::as_hms(time_NA_value) ||
-      hms::as_hms(end_d) == hms::as_hms(time_NA_value)
-    ){
-
+        hms::as_hms(end_d) == hms::as_hms(time_NA_value)
+    ) {
       event_interval <-
-        lubridate::interval(lubridate::as_date(start_d),
-                            lubridate::as_date(end_d))
+        lubridate::interval(
+          lubridate::as_date(start_d),
+          lubridate::as_date(end_d)
+        )
 
       eventDate <- lubridate::format_ISO8601(event_interval, precision = "ymd")
 
       # Time level precision for the eventDate and the event_interval where both
       # are available
-    } else{
-
+    } else {
       event_interval <-
         lubridate::interval(start_d, end_d)
 
       eventDate <- lubridate::format_ISO8601(event_interval,
-                                             usetz = TRUE,
-                                             precision = "ymdhm")
-
+        usetz = TRUE,
+        precision = "ymdhm"
+      )
     }
 
     # Both start and finish shown in verbatimEventDate
@@ -173,31 +175,29 @@ dwc_Event_scalar <- function(start,
 
     # Calculate the length of time that sampling took place
     sampleSizeValue <- lubridate::time_length(event_interval,
-                                              unit = sampleSizeUnit)
+      unit = sampleSizeUnit
+    )
 
 
     # If only the start date/datetime is given, we do not calculate the interval
     # information
-
-  } else{
-
+  } else {
     start_d <- lubridate::parse_date_time(start,
-                                          c("dmy HMS", "ymd HMS", "dmy", "ymd"),
-                                          tz = tzone)
+      c("dmy HMS", "ymd HMS", "dmy", "ymd"),
+      tz = tzone
+    )
 
-    if(
+    if (
       hms::as_hms(start_d) == hms::as_hms(time_NA_value)
-    ){
-
+    ) {
       eventDate <- lubridate::format_ISO8601(start_d,
-                                             precision = "ymd")
-
-    } else{
-
+        precision = "ymd"
+      )
+    } else {
       eventDate <- lubridate::format_ISO8601(start_d,
         usetz = TRUE,
-        precision = "ymdhm")
-
+        precision = "ymdhm"
+      )
     }
 
     # Both start and finish shown in verbatimEventDate
@@ -209,42 +209,24 @@ dwc_Event_scalar <- function(start,
     # Assign NULL interval information
     sampleSizeValue <- NULL
     sampleSizeUnit <- NULL
-
-
   }
 
   # Return information as a tibble
   tibble::tibble(
-
     fieldNumber = fieldNumber,
-
     eventDate = eventDate,
-
     startDayOfYear = lubridate::yday(start_d),
-
     endDayOfYear = endDayOfYear,
-
     year = lubridate::year(start_d),
-
     month = lubridate::month(start_d),
-
     day = lubridate::day(start_d),
-
     verbatimEventDate = verbatimEventDate,
-
     habitat = habitat,
-
     samplingProtocol = samplingProtocol,
-
     sampleSizeValue = sampleSizeValue,
-
     sampleSizeUnit = sampleSizeUnit,
-
     samplingEffort = samplingEffort,
-
     fieldNotes = fieldNotes,
-
     eventRemarks = eventRemarks
   )
-
 }

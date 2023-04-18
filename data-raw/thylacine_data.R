@@ -15,7 +15,6 @@ thylacine_data <-
     "Picton", "Picton 1", "10/10/2022 0:00:00", "11/10/2022 08:46:00", 146.7033386, -43.2611122, "146 42 12.0 E", "43 15 40.0 S", "146 42.200316 E", "43 15.666732 S", "Thylacinus cynocephalus", 0,
     "Picton", "Picton 2", "10/10/2022 10:14:00", "11/10/2022 10:29:00", 146.6952820, -43.2330551, "146 41 43.0 E", "43 13 59.0 S", "146 41.716920 E", "43 13.983306 S", "Thylacinus cynocephalus", 0,
   ) |>
-
   mutate(gps_uncertainty = 30, .before = species)
 
 usethis::use_data(thylacine_data, overwrite = TRUE)

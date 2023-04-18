@@ -18,28 +18,37 @@
 #' # Note that the georeference_calculator_output has been truncated for this
 #' # example
 #' dwc_format_gco(
-#' location_identifier = "A",
-#' georeference_calculator_output =
-#' "10.27	-123.6	WGS84	1557	0.0000001	JB	2022-08-31	Georeferencing...")
+#'   location_identifier = "A",
+#'   georeference_calculator_output =
+#'     "10.27	-123.6	WGS84	1557	0.0000001	JB	2022-08-31	Georeferencing..."
+#' )
 dwc_format_gco <-
   function(location_identifier, georeference_calculator_output) {
-
     a <-
       base::as.character(
-        c(location_identifier,
+        c(
+          location_identifier,
           stringr::str_split(georeference_calculator_output,
-                                                 "\t", simplify = TRUE))
+            "\t",
+            simplify = TRUE
+          )
+        )
       )
 
     base::names(a) <-
-      c("location_identifier", "decimalLatitude",	"decimalLongitude",
-        "geodeticDatum", "coordinateUncertaintyInMeters",	"coordinatePrecision",
-        "georeferencedBy", "gereferenceDate",	"georeferenceProtocol")
+      c(
+        "location_identifier", "decimalLatitude", "decimalLongitude",
+        "geodeticDatum", "coordinateUncertaintyInMeters", "coordinatePrecision",
+        "georeferencedBy", "gereferenceDate", "georeferenceProtocol"
+      )
 
     a |>
       tibble::enframe() |>
       tidyr::pivot_wider() |>
       dplyr::mutate(
-        dplyr::across(.cols = tidyselect::contains(c("decimal", "coordinate")),
-                      ~base::as.numeric(.x)))
+        dplyr::across(
+          .cols = tidyselect::contains(c("decimal", "coordinate")),
+          ~ base::as.numeric(.x)
+        )
+      )
   }

@@ -74,5 +74,3 @@
 #'   \item{inverse_flattening}{inverse of the flattening component of the datum}
 #' }
 "crs_data"
-
-

@@ -44,15 +44,15 @@ The `dwc_Event()` and `dwc_Location()` functions provide wrappers that can be us
 For example, using the toy dataset that comes shipped with the package:
 
 ```{r eval=FALSE}
-#Load packages
+# Load packages
 library("dwcPrepare")
 library("dplyr")
 library("tibble")
 
-#Load data
+# Load data
 data("thylacine_data")
 
-#Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
+# Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
 thylacine_data |>
   mutate(
     dwc_Event(
@@ -63,7 +63,7 @@ thylacine_data |>
     )
   )
 
-#Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
+# Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
 thylacine_data |>
   mutate(
     dwc_Location(

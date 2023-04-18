@@ -53,34 +53,39 @@ can be used with `dplyr::mutate()` to generate all of the Darwin Core
 For example, using the toy dataset that comes shipped with the package:
 
 ``` r
-#Load packages
+# Load packages
 library("dwcPrepare")
 library("dplyr")
 library("tibble")
 
-#Load data
+# Load data
 data("thylacine_data")
 
-#Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
+# Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
 thylacine_data |>
-  mutate(dwc_Event(
-    start = date_trap_setup,
-    end = date_trap_collected,
-    tzone = "Australia/Hobart",
-    samplingEffort = "1 trap"
-  ))
+  mutate(
+    dwc_Event(
+      start = date_trap_setup,
+      end = date_trap_collected,
+      tzone = "Australia/Hobart",
+      samplingEffort = "1 trap"
+    )
+  )
 
-#Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
+# Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
 thylacine_data |>
-mutate(dwc_Location(
-  longitude = longitude_dd,
-  latitude = latitude_dd,
-  verbatimCoordinateSystem = "decimal degrees",
-  verbatimSRS = "EPSG:4326",
-  gps_uncertainty = gps_uncertainty,
-  localities_sf = locality_data_aus,
-  localities_names = "locality_name",
-  county_sf = county_tas))
+  mutate(
+    dwc_Location(
+      longitude = longitude_dd,
+      latitude = latitude_dd,
+      verbatimCoordinateSystem = "decimal degrees",
+      verbatimSRS = "EPSG:4326",
+      gps_uncertainty = gps_uncertainty,
+      localities_sf = locality_data_aus,
+      localities_names = "locality_name",
+      county_sf = county_tas
+    )
+  )
 ```
 
 See `vignette("dwcPrepare")` for more help with getting started.
