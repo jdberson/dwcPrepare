@@ -106,11 +106,11 @@ thylacine_data_c <-
   )
 ```
 
-Next, if we have a shape file with the country, countryCode, stateProvince and county information for our area of interest, we can use `dwc_contry_to_county()` to assign these values for each of our points.  
+Next, if we have a shape file with the country, countryCode, stateProvince and county information for our area of interest, we can use `dwc_country_to_county()` to assign these values for each of our points.  
 
 `dwcPrepare` includes shape file for the area where our mock data were collected.  
 
-**Warning:** The `dwc_contry_to_county()` function differs to the other `dwcPrepare` functions in two ways. First, is not wrapped in `dplyr::mutate()` when applying to a dataframe. Also, column names are given as strings. We may update this in a future version of the package.
+**Warning:** The `dwc_country_to_county()` function differs to the other `dwcPrepare` functions in two ways. First, is not wrapped in `dplyr::mutate()` when applying to a dataframe. Also, column names are given as strings. We may update this in a future version of the package.
 
 ```{r}
 # Load the sf object with the county shape files that include the country,
