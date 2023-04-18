@@ -14,20 +14,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ## Overview
 
-This vignette shows how to use `dwcPrepare` to help prepare biodiversity data that use [Darwin Core](https://dwc.tdwg.org/) terms.   
+This vignette shows how to use `dwcPrepare` to prepare biodiversity data that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
-Currently, a number of Darwin Core [Event](https://dwc.tdwg.org/terms/#event) and [Location](https://dwc.tdwg.org/terms/#location) terms are supported by the package. We think that the most useful part of the package will be to generate some of the Darwin Core [Location](https://dwc.tdwg.org/terms/#location) terms that require a level of 'calculation'.  
+Currently, a number of Darwin Core [Event](https://dwc.tdwg.org/terms/#event) and [Location](https://dwc.tdwg.org/terms/#location) terms are supported by the package calculated with two wrapper functions `dwc_Event()` and `dwc_Location()`. We think that the most useful part of the package is to generate some of the Darwin Core [Location](https://dwc.tdwg.org/terms/#location) terms that require a level of 'calculation'. For example, the [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters) and text for the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) term.
 
-More particularly, the package can be used to calculate the [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters) for a large number of point locations. If you have a small number of locations, you may wish to use the the online [Georeferencing Calculator](http://georeferencing.org/georefcalculator/gc.html) (Wieczorek and Wieczorek 2021). This has more options than we provide here, including calculating the uncertainty from an unknown datum. We relied heavily on this calculator and associated documentation when writing this package. Output from the calculator can be formatted for use in R using the `dwc_format_gco()` function.  
+| If you have a small number of locations, you may wish to use the the online [Georeferencing Calculator](http://georeferencing.org/georefcalculator/gc.html) (Wieczorek and Wieczorek 2021). This has more options than we provide here, including calculating the uncertainty from an unknown datum. We relied heavily on this calculator and associated documentation when writing this package. Output from the calculator can be formatted for use in R using the `dwc_format_gco()` function.
 
-Most functions in the package can take data from a single location / event directly as part of their arguments. However, on most occasions, we will have a spreadsheet with multiple locations / events that we wish to format following [Darwin Core](https://dwc.tdwg.org/) terms. The following examples show how to use `dwcPrepare` with `dplyr::mutate()` in the case where we have multiple locations / events. Please see the individual help files for examples with a single location / event.  
+Most functions in the package can take data from a single location / event directly as part of their arguments. However, we will mostly have a spreadsheet with multiple locations / events that we wish to format to [Darwin Core](https://dwc.tdwg.org/) terms. The following examples show how to use `dwcPrepare` with `dplyr::mutate()` in the case where we have multiple locations / events. Please see the individual help files for examples with a single location / event.
 
 ## Darwin Core Location terms
 
-First let's walk through generating the Darwin Core Location terms. 
+First let's walk through generating the Darwin Core Location terms.
 
 ### Load packages
 
@@ -54,9 +53,10 @@ thylacine_data <-
   thylacine_data |>
   select(-c(longitude_dd:latitude_dms))
 ```
+
 ### Location terms step-by-step
 
-We can now go through building up the location terms step by step.  
+We can now go through building up the location terms step by step.
 
 First, we use `dwc_coordinates()` to do some checks, get our longitude and latitude in the right format, and record some basic information:
 
@@ -75,7 +75,7 @@ thylacine_data_a <-
 
 Two things to note from the above. One is that `dwc_coordinates()` is called inside of `dplyr::mutate()`. If, like above, a `tibble::tibble()` is returned by the `dwcPrepare` function, then there is no need to specify a column name within `dplyr::mutate()`. However, if a single vector is returned, then a column name needs to be specified (see the next code chunk).
 
-The other thing to note is that by giving strings to the `verbatimCoordinateSystem` and `verbatimSRS`, we are telling `dwc_coordinates()` that these values apply to all rows in the dataframe.  
+The other thing to note is that by giving strings to the `verbatimCoordinateSystem` and `verbatimSRS`, we are telling `dwc_coordinates()` that these values apply to all rows in the dataframe.
 
 Next we calculate the precision of our coordinates:
 
@@ -106,9 +106,9 @@ thylacine_data_c <-
   )
 ```
 
-Next, if we have a shape file with the country, countryCode, stateProvince and county information for our area of interest, we can use `dwc_country_to_county()` to assign these values for each of our points.  
+Next, if we have a shape file with the country, countryCode, stateProvince and county information for our area of interest, we can use `dwc_country_to_county()` to assign these values for each of our points.
 
-`dwcPrepare` includes shape file for the area where our mock data were collected.  
+`dwcPrepare` includes shape file for the area where our mock data were collected.
 
 **Warning:** The `dwc_country_to_county()` function differs to the other `dwcPrepare` functions in two ways. First, is not wrapped in `dplyr::mutate()` when applying to a dataframe. Also, column names are given as strings. We may update this in a future version of the package.
 
@@ -130,7 +130,7 @@ thylacine_data_d <-
   )
 ```
 
-Finally, a useful feature of `dwcPrepare` is providing information that can be used in the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) field using `dwc_locality()`.  
+Finally, a useful feature of `dwcPrepare` is providing information that can be used in the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) field using `dwc_locality()`.
 
 This function does require an [sf](https://r-spatial.github.io/sf/index.html) POINT object that includes the locality names and their longitude and latitude for the area of interest. `dwcPrepare` comes with this object for Australian localities (`locality_data_aus()`).
 
@@ -149,9 +149,10 @@ thylacine_data_e <-
     )
   )
 ```
+
 ### Location terms with one function
 
-Our final dataframe above, thylacine_data_e, includes the Darwin Core Location fields: [decimalLatitude](http://rs.tdwg.org/dwc/terms/decimalLatitude), [decimalLongitude](http://rs.tdwg.org/dwc/terms/decimalLongitude), [geodeticDatum](http://rs.tdwg.org/dwc/terms/geodeticDatum), [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters), [coordinatePrecision](http://rs.tdwg.org/dwc/terms/coordinatePrecision), [verbatimLatitude](http://rs.tdwg.org/dwc/terms/verbatimLatitude), [verbatimLongitude](http://rs.tdwg.org/dwc/terms/verbatimLongitude), [verbatimCoordinateSystem](http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem), [verbatimSRS](http://rs.tdwg.org/dwc/terms/verbatimSRS), [country](http://rs.tdwg.org/dwc/terms/country), [countryCode](http://rs.tdwg.org/dwc/terms/countryCode), [stateProvince](http://rs.tdwg.org/dwc/terms/stateProvince), [county](http://rs.tdwg.org/dwc/terms/county) and [locality](http://rs.tdwg.org/dwc/terms/locality).  
+Our final dataframe above, thylacine_data_e, includes the Darwin Core Location fields: [decimalLatitude](http://rs.tdwg.org/dwc/terms/decimalLatitude), [decimalLongitude](http://rs.tdwg.org/dwc/terms/decimalLongitude), [geodeticDatum](http://rs.tdwg.org/dwc/terms/geodeticDatum), [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters), [coordinatePrecision](http://rs.tdwg.org/dwc/terms/coordinatePrecision), [verbatimLatitude](http://rs.tdwg.org/dwc/terms/verbatimLatitude), [verbatimLongitude](http://rs.tdwg.org/dwc/terms/verbatimLongitude), [verbatimCoordinateSystem](http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem), [verbatimSRS](http://rs.tdwg.org/dwc/terms/verbatimSRS), [country](http://rs.tdwg.org/dwc/terms/country), [countryCode](http://rs.tdwg.org/dwc/terms/countryCode), [stateProvince](http://rs.tdwg.org/dwc/terms/stateProvince), [county](http://rs.tdwg.org/dwc/terms/county) and [locality](http://rs.tdwg.org/dwc/terms/locality).
 
 Rather than generating these terms step-by-step, we can use the wrapper function `dwc_Location()` to do everything in one step:
 
@@ -176,12 +177,9 @@ Much easier!
 
 ## Darwin Core Event terms
 
-There is only a single function for Darwin Core [Event](https://dwc.tdwg.org/terms/#event) terms: `dwc_Event()`. This is because the [lubridate](https://lubridate.tidyverse.org/) R package already includes many functions that can be used to calculate Darwin Core [Event](https://dwc.tdwg.org/terms/#event) terms. `dwc_Event()` provides a wrapper for a series of [lubridate](https://lubridate.tidyverse.org/) functions, and experienced R users may prefer to use the [lubridate](https://lubridate.tidyverse.org/) functions directly (we have found `dwc_Event()` to be slow for large datasets).  
+There is only a single function for Darwin Core [Event](https://dwc.tdwg.org/terms/#event) terms: `dwc_Event()`. This is because the [lubridate](https://lubridate.tidyverse.org/) R package already includes many functions that can be used to calculate Darwin Core [Event](https://dwc.tdwg.org/terms/#event) terms. `dwc_Event()` provides a wrapper for a series of [lubridate](https://lubridate.tidyverse.org/) functions, and experienced R users may prefer to use the [lubridate](https://lubridate.tidyverse.org/) functions directly (we have found `dwc_Event()` to be slow for large datasets).
 
-The Darwin Core terms returned by `dwc_Event()` are:  [eventDate](http://rs.tdwg.org/dwc/terms/eventDate), [startDayOfYear](http://rs.tdwg.org/dwc/terms/startDayOfYear),
-[endDayOfYear](http://rs.tdwg.org/dwc/terms/endDayOfYear), [year](http://rs.tdwg.org/dwc/terms/year),
-[month](http://rs.tdwg.org/dwc/terms/month), [day](http://rs.tdwg.org/dwc/terms/day), [verbatimEventDate](http://rs.tdwg.org/dwc/terms/verbatimEventDate), and optionally [fieldNumber](http://rs.tdwg.org/dwc/terms/fieldNumber),
-[habitat](http://rs.tdwg.org/dwc/terms/habitat), [samplingProtocol](http://rs.tdwg.org/dwc/terms/samplingProtocol),  [samplingEffort](http://rs.tdwg.org/dwc/terms/samplingEffort), [fieldNotes](http://rs.tdwg.org/dwc/terms/fieldNotes) and [eventRemarks](http://rs.tdwg.org/dwc/terms/eventRemarks). If both start and end date/date-time are supplied the function will also return: [sampleSizeValue](http://rs.tdwg.org/dwc/terms/sampleSizeValue), [sampleSizeUnit](http://rs.tdwg.org/dwc/terms/sampleSizeUnit).
+The Darwin Core terms returned by `dwc_Event()` are: [eventDate](http://rs.tdwg.org/dwc/terms/eventDate), [startDayOfYear](http://rs.tdwg.org/dwc/terms/startDayOfYear), [endDayOfYear](http://rs.tdwg.org/dwc/terms/endDayOfYear), [year](http://rs.tdwg.org/dwc/terms/year), [month](http://rs.tdwg.org/dwc/terms/month), [day](http://rs.tdwg.org/dwc/terms/day), [verbatimEventDate](http://rs.tdwg.org/dwc/terms/verbatimEventDate), and optionally [fieldNumber](http://rs.tdwg.org/dwc/terms/fieldNumber), [habitat](http://rs.tdwg.org/dwc/terms/habitat), [samplingProtocol](http://rs.tdwg.org/dwc/terms/samplingProtocol), [samplingEffort](http://rs.tdwg.org/dwc/terms/samplingEffort), [fieldNotes](http://rs.tdwg.org/dwc/terms/fieldNotes) and [eventRemarks](http://rs.tdwg.org/dwc/terms/eventRemarks). If both start and end date/date-time are supplied the function will also return: [sampleSizeValue](http://rs.tdwg.org/dwc/terms/sampleSizeValue), [sampleSizeUnit](http://rs.tdwg.org/dwc/terms/sampleSizeUnit).
 
 For example, using our `thylacine_data()`
 
@@ -198,7 +196,6 @@ thylacine_data_event <-
   )
 ```
 
-
 ## References
 
-Wieczorek C, J Wieczorek (2021) Georeferencing Calculator. Available: http://georeferencing.org/georefcalculator/gc.html. Accessed [2023-03-09].
+Wieczorek C, J Wieczorek (2021) Georeferencing Calculator. Available: <http://georeferencing.org/georefcalculator/gc.html>. Accessed [2023-03-09].

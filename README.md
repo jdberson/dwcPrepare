@@ -11,11 +11,16 @@
 The goal of dwcPrepare is to make it easier to prepare biodiversity data
 that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
-Our current focus has been the Darwin Core
-[Location](https://dwc.tdwg.org/terms/#location) terms. For users with
-established data processing pipelines, the most useful functions are
-likely to be `dwc_coordinateUncertaintyInMeters()`, which as the name
-suggests, calculates the
+It can be used automatically generate Darwin Core
+[Event](https://dwc.tdwg.org/terms/#event) and
+[Location](https://dwc.tdwg.org/terms/#location) terms from your data
+set for submission to a Darwin Core Archive
+(e.g. [GBIF](https://www.gbif.org/) and [ALA](https://www.ala.org.au/)).
+
+For users with established data processing pipelines, the most useful
+utility functions are likely to be
+`dwc_coordinateUncertaintyInMeters()`, which as the name suggests,
+calculates the
 [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters),
 and the `dwc_locality()` function that provides text for the Darwin Core
 [locality](http://rs.tdwg.org/dwc/terms/locality) term.
