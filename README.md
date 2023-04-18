@@ -11,7 +11,7 @@
 The goal of dwcPrepare is to make it easier to prepare biodiversity data
 that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
-It can be used automatically generate Darwin Core
+It can be used to automatically generate Darwin Core
 [Event](https://dwc.tdwg.org/terms/#event) and
 [Location](https://dwc.tdwg.org/terms/#location) terms from your data
 set for submission to a Darwin Core Archive
