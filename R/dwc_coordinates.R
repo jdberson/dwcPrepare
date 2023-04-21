@@ -25,44 +25,46 @@
 #' data("thylacine_data")
 #' thylacine_data |>
 #'   dplyr::mutate(
-#'       dwc_coordinates(
+#'     dwc_coordinates(
 #'       longitude = longitude_dms,
 #'       latitude = latitude_dms,
 #'       verbatimCoordinateSystem = "degrees minutes seconds",
-#'       verbatimSRS = "EPSG:4326")
-#'       )
+#'       verbatimSRS = "EPSG:4326"
+#'     )
+#'   )
 dwc_coordinates <- function(
     longitude,
     latitude,
     verbatimCoordinateSystem,
-    verbatimSRS){
-
-  purrr::pmap_df(.l = list(
-    longitude,
-    latitude,
-                         verbatimCoordinateSystem,
-                         verbatimSRS),
-              .f = dwc_coordinates_scalar)
-
+    verbatimSRS) {
+  purrr::pmap_df(
+    .l = list(
+      longitude,
+      latitude,
+      verbatimCoordinateSystem,
+      verbatimSRS
+    ),
+    .f = dwc_coordinates_scalar
+  )
 }
 
 dwc_coordinates_scalar <- function(
     longitude,
     latitude,
     verbatimCoordinateSystem,
-    verbatimSRS){
-
+    verbatimSRS) {
   # Initial checks - throw a warning and stops function if conditions aren't met
 
   # Longitude/latitude check
   dwc_check_longitude_latitude(
     longitude = longitude,
     latitude = latitude,
-    verbatimCoordinateSystem = verbatimCoordinateSystem)
+    verbatimCoordinateSystem = verbatimCoordinateSystem
+  )
 
   # Check that verbatimSRS EPSG is found in crs_data
   crs_data <- dwcPrepare::crs_data
-  if(!verbatimSRS %in% c("unknown", crs_data |> dplyr::pull(.data$epsg_code))){
+  if (!verbatimSRS %in% c("unknown", crs_data |> dplyr::pull(.data$epsg_code))) {
     base::stop(stringr::str_c(
       verbatimSRS, ' is not a currently supported verbatimSRS. For a list of
       supported EPSG codes please see the epsg_code column in data("crs_data").'
@@ -71,30 +73,26 @@ dwc_coordinates_scalar <- function(
 
 
   # Convert coordinates to decimal degrees if needed
-  if(verbatimCoordinateSystem  %in%
-     c("degrees decimal minutes", "degrees minutes seconds")){
-
-    decimalLongitude =
+  if (verbatimCoordinateSystem %in%
+    c("degrees decimal minutes", "degrees minutes seconds")) {
+    decimalLongitude <-
       base::format(parzer::parse_lon(longitude), nsmall = 7)
 
-    decimalLatitude =
+    decimalLatitude <-
       base::format(parzer::parse_lat(latitude), nsmall = 7)
-
-
   } else {
-
     # If coordinates are already in decimal degrees, round to 7 decimal places
-    decimalLongitude =
+    decimalLongitude <-
       base::round(longitude, digits = 7)
 
-    decimalLatitude =
+    decimalLatitude <-
       base::round(latitude, digits = 7)
   }
 
 
   # Record geodeticDatum - update this when verbatimSRS allows for more than
   # just EPSG codes
-  geodeticDatum = verbatimSRS
+  geodeticDatum <- verbatimSRS
 
   return(tibble::tibble(
     decimalLatitude = base::as.numeric(decimalLatitude),
@@ -103,6 +101,6 @@ dwc_coordinates_scalar <- function(
     verbatimLatitude = latitude,
     verbatimLongitude = longitude,
     verbatimCoordinateSystem = verbatimCoordinateSystem,
-    verbatimSRS = verbatimSRS))
-
+    verbatimSRS = verbatimSRS
+  ))
 }

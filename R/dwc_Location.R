@@ -82,15 +82,16 @@
 #' data("county_tas")
 #'
 #' thylacine_data |>
-#' mutate(dwc_Location(
-#'   longitude = longitude_dd,
-#'   latitude = latitude_dd,
-#'   verbatimCoordinateSystem = "decimal degrees",
-#'   verbatimSRS = "EPSG:4326",
-#'   gps_uncertainty = gps_uncertainty,
-#'   localities_sf = locality_data_aus,
-#'   localities_names = "locality_name",
-#'   county_sf = county_tas))
+#'   mutate(dwc_Location(
+#'     longitude = longitude_dd,
+#'     latitude = latitude_dd,
+#'     verbatimCoordinateSystem = "decimal degrees",
+#'     verbatimSRS = "EPSG:4326",
+#'     gps_uncertainty = gps_uncertainty,
+#'     localities_sf = locality_data_aus,
+#'     localities_names = "locality_name",
+#'     county_sf = county_tas
+#'   ))
 dwc_Location <- function(longitude,
                          latitude,
                          verbatimCoordinateSystem,
@@ -98,43 +99,47 @@ dwc_Location <- function(longitude,
                          gps_uncertainty = 30,
                          localities_sf = NULL,
                          localities_names = NULL,
-                         county_sf = NULL){
-
+                         county_sf = NULL) {
   df1 <-
     dwcPrepare::dwc_coordinates(
       longitude = longitude,
       latitude = latitude,
       verbatimCoordinateSystem = verbatimCoordinateSystem,
-      verbatimSRS = verbatimSRS) |>
+      verbatimSRS = verbatimSRS
+    ) |>
+    dplyr::mutate(
+      coordinatePrecision =
+        dwcPrepare::dwc_coordinatePrecision(
+          verbatimLatitude = .data$verbatimLatitude,
+          verbatimLongitude = .data$verbatimLongitude,
+          verbatimCoordinateSystem = .data$verbatimCoordinateSystem
+        ),
+      .after = .data$geodeticDatum
+    ) |>
+    dplyr::mutate(
+      coordinateUncertaintyInMeters =
+        dwcPrepare::dwc_coordinateUncertaintyInMeters(
+          decimalLatitude = .data$decimalLatitude,
+          coordinatePrecision = .data$coordinatePrecision,
+          geodeticDatum = .data$geodeticDatum,
+          gps_uncertainty = gps_uncertainty
+        ),
+      .before = .data$coordinatePrecision
+    )
 
-    dplyr::mutate(coordinatePrecision =
-                    dwcPrepare::dwc_coordinatePrecision(verbatimLatitude = .data$verbatimLatitude,
-                                            verbatimLongitude = .data$verbatimLongitude,
-                                            verbatimCoordinateSystem = .data$verbatimCoordinateSystem),
-                  .after = .data$geodeticDatum) |>
-
-    dplyr::mutate(coordinateUncertaintyInMeters =
-                    dwcPrepare::dwc_coordinateUncertaintyInMeters(
-      decimalLatitude = .data$decimalLatitude,
-      coordinatePrecision = .data$coordinatePrecision,
-      geodeticDatum = .data$geodeticDatum,
-      gps_uncertainty = gps_uncertainty),
-      .before = .data$coordinatePrecision)
-
-  if(!base::is.null(county_sf)) {
+  if (!base::is.null(county_sf)) {
     df1 <-
       df1 |>
       dwcPrepare::dwc_country_to_county(
         decimalLongitude = "decimalLongitude",
         decimalLatitude = "decimalLatitude",
-        county_sf = county_sf) |>
+        county_sf = county_sf
+      ) |>
       dplyr::relocate(.data$country:.data$county, .before = .data$decimalLatitude)
-
   }
 
-  if(!base::is.null(localities_sf)){
-
-    if(base::is.null(localities_names)){
+  if (!base::is.null(localities_sf)) {
+    if (base::is.null(localities_names)) {
       base::stop(
         "localities_names must be supplied if providing localities_sf",
         call. = FALSE
@@ -143,18 +148,19 @@ dwc_Location <- function(longitude,
 
     df1 <-
       df1 |>
-      dplyr::mutate(locality =
-                      dwcPrepare::dwc_locality(decimalLongitude = .data$decimalLongitude,
-                                            decimalLatitude = .data$decimalLatitude,
-                                            localities_sf  = localities_sf,
-                                            localities_names = localities_names),
-                    .before = .data$decimalLatitude)
+      dplyr::mutate(
+        locality =
+          dwcPrepare::dwc_locality(
+            decimalLongitude = .data$decimalLongitude,
+            decimalLatitude = .data$decimalLatitude,
+            localities_sf = localities_sf,
+            localities_names = localities_names
+          ),
+        .before = .data$decimalLatitude
+      )
   }
 
 
 
   return(df1)
-
-
-
 }

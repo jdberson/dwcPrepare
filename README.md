@@ -11,11 +11,16 @@
 The goal of dwcPrepare is to make it easier to prepare biodiversity data
 that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
-Our current focus has been the Darwin Core
-[Location](https://dwc.tdwg.org/terms/#location) terms. For users with
-established data processing pipelines, the most useful functions are
-likely to be `dwc_coordinateUncertaintyInMeters()`, which as the name
-suggests, calculates the
+It can be used to automatically generate Darwin Core
+[Event](https://dwc.tdwg.org/terms/#event) and
+[Location](https://dwc.tdwg.org/terms/#location) terms from your data
+set for submission to a Darwin Core Archive
+(e.g. [GBIF](https://www.gbif.org/) and [ALA](https://www.ala.org.au/)).
+
+For users with established data processing pipelines, the most useful
+utility functions are likely to be
+`dwc_coordinateUncertaintyInMeters()`, which as the name suggests,
+calculates the
 [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters),
 and the `dwc_locality()` function that provides text for the Darwin Core
 [locality](http://rs.tdwg.org/dwc/terms/locality) term.
@@ -53,34 +58,39 @@ can be used with `dplyr::mutate()` to generate all of the Darwin Core
 For example, using the toy dataset that comes shipped with the package:
 
 ``` r
-#Load packages
+# Load packages
 library("dwcPrepare")
 library("dplyr")
 library("tibble")
 
-#Load data
+# Load data
 data("thylacine_data")
 
-#Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
+# Use dplyr::mutate() with dwc_Event() to generate Darwin Core Event fields
 thylacine_data |>
-  mutate(dwc_Event(
-    start = date_trap_setup,
-    end = date_trap_collected,
-    tzone = "Australia/Hobart",
-    samplingEffort = "1 trap"
-  ))
+  mutate(
+    dwc_Event(
+      start = date_trap_setup,
+      end = date_trap_collected,
+      tzone = "Australia/Hobart",
+      samplingEffort = "1 trap"
+    )
+  )
 
-#Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
+# Use dplyr::mutate() with dwc_Location() to generate Darwin Core Location fields
 thylacine_data |>
-mutate(dwc_Location(
-  longitude = longitude_dd,
-  latitude = latitude_dd,
-  verbatimCoordinateSystem = "decimal degrees",
-  verbatimSRS = "EPSG:4326",
-  gps_uncertainty = gps_uncertainty,
-  localities_sf = locality_data_aus,
-  localities_names = "locality_name",
-  county_sf = county_tas))
+  mutate(
+    dwc_Location(
+      longitude = longitude_dd,
+      latitude = latitude_dd,
+      verbatimCoordinateSystem = "decimal degrees",
+      verbatimSRS = "EPSG:4326",
+      gps_uncertainty = gps_uncertainty,
+      localities_sf = locality_data_aus,
+      localities_names = "locality_name",
+      county_sf = county_tas
+    )
+  )
 ```
 
 See `vignette("dwcPrepare")` for more help with getting started.

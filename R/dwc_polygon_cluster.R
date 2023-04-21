@@ -28,8 +28,7 @@
 #'
 #' # Run function
 #' dwc_polygon_cluster(thylacine_polygons)
-dwc_polygon_cluster <- function(x){
-
+dwc_polygon_cluster <- function(x) {
   # Inspired by answer at:
   # https://gis.stackexchange.com/questions/323038/dissolve-only-overlapping-polygons-in-r-using-sf
 
@@ -38,12 +37,11 @@ dwc_polygon_cluster <- function(x){
   # https://github.com/r-spatial/sf/issues/1762
 
   # Union polygons that intersect
-  x_union <- sf::st_make_valid(sf::st_cast(sf::st_union(x),"POLYGON"))
+  x_union <- sf::st_make_valid(sf::st_cast(sf::st_union(x), "POLYGON"))
 
   # Assign cluster id to polygons that intersect
   .cluster <-
     tibble::tibble(.cluster = base::unlist(sf::st_intersects(x, x_union)))
 
   dplyr::bind_cols(x, .cluster)
-
-  }
+}

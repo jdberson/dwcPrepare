@@ -41,14 +41,16 @@
 #' point_locations <- data.frame(
 #'   name = c("A", "B", "C"),
 #'   lon = c(117.093225, 127.502052, 115.674972),
-#'   lat = c(-33.110168, -25.128663, -33.982473))
+#'   lat = c(-33.110168, -25.128663, -33.982473)
+#' )
 #'
 #' # Make up some county polygon data nested within higher geographies
 #' county_sf <-
 #'   sf::st_buffer(sf::st_as_sf(point_locations,
-#'                              coords = c("lon", "lat"),
-#'                              remove = FALSE,
-#'                              crs = sf::st_crs("EPSG:4326")), dist = 1000) |>
+#'     coords = c("lon", "lat"),
+#'     remove = FALSE,
+#'     crs = sf::st_crs("EPSG:4326")
+#'   ), dist = 1000) |>
 #'   dplyr::mutate(
 #'     country_raw = c("Country 1", "Country 2", "Country 3"),
 #'     countryCode_raw = c("C1", "C2", "C3"),
@@ -58,13 +60,14 @@
 #'
 #' # Run the function
 #' dwc_country_to_county(point_locations,
-#'                     decimalLongitude = "lon",
-#'                     decimalLatitude = "lat",
-#'                     county_sf = county_sf,
-#'                     country_column_name = "country_raw",
-#'                     countryCode_column_name = "countryCode_raw",
-#'                     stateProvince_column_name = "stateProvince_raw",
-#'                     county_column_name = "county_raw")
+#'   decimalLongitude = "lon",
+#'   decimalLatitude = "lat",
+#'   county_sf = county_sf,
+#'   country_column_name = "country_raw",
+#'   countryCode_column_name = "countryCode_raw",
+#'   stateProvince_column_name = "stateProvince_raw",
+#'   county_column_name = "county_raw"
+#' )
 dwc_country_to_county <-
   function(df,
            decimalLongitude,
@@ -74,11 +77,12 @@ dwc_country_to_county <-
            countryCode_column_name = "countryCode",
            stateProvince_column_name = "stateProvince",
            county_column_name = "county") {
-
     pointLocations_sf <-
-      sf::st_as_sf(df, coords = c(decimalLongitude, decimalLatitude),
-                   remove = FALSE,
-                   crs = sf::st_crs("EPSG:4326"))
+      sf::st_as_sf(df,
+        coords = c(decimalLongitude, decimalLatitude),
+        remove = FALSE,
+        crs = sf::st_crs("EPSG:4326")
+      )
 
     # Make sure county_sf and pointLocations_sf have the same crs
     county_sf <-
@@ -87,10 +91,12 @@ dwc_country_to_county <-
     sf::st_join(
       pointLocations_sf,
       county_sf |>
-        dplyr::select(country = !!country_column_name,
-                      countryCode = !!countryCode_column_name,
-                      stateProvince = !!stateProvince_column_name,
-                      county = !!county_column_name)
+        dplyr::select(
+          country = !!country_column_name,
+          countryCode = !!countryCode_column_name,
+          stateProvince = !!stateProvince_column_name,
+          county = !!county_column_name
+        )
     ) |>
       sf::st_drop_geometry()
   }
