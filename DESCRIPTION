@@ -14,7 +14,7 @@ Authors@R:
              comment = c(ORCID = "0000-0002-0686-4788")))
 Description: The package helps take a data frame that contains data such as
     geographic coordinates, date/date-time and species abundances, and 
-    transforms this data ready for use in a Darwin Core archive.
+    transforms these data ready for use in a Darwin Core archive.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
