@@ -44,11 +44,16 @@ each point to a cluster.
 }
 \examples{
 df <-
-data.frame(
-longitude = c(116.018, 116.010, 116.011, 115.969, 115.976, 115.973),
-latitude = c(-31.709, -31.707, -31.713, -32.339, -32.339, -32.344)
-)
+  data.frame(
+    longitude = c(116.018, 116.010, 116.011, 115.969, 115.976, 115.973),
+    latitude = c(-31.709, -31.707, -31.713, -32.339, -32.339, -32.344)
+  )
 
-dwc_point_cluster(df, "longitude", "latitude",
-                   hclust_method = "average",  h = 5000)
+dwc_point_cluster(
+  df = df,
+  longitude = "longitude",
+  latitude = "latitude",
+  hclust_method = "average",
+  h = 5000
+)
 }

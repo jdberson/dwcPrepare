@@ -20,6 +20,7 @@ sourced from Commonwealth of Australia (The Intergovernmental Committee on
 Surveying and Mapping, ICSM) 2018, under a Creative Commons Attribution 4.0
 International license. See \url{https://placenames.fsdf.org.au/}. Note that
 data received has been subset so that only the NAME field and geometry
-column are retained in the sf object. NAME has been renamed to locality_name.
+column are retained in the sf object. NAME in the original data has been
+renamed to locality_name.
 }
 \keyword{datasets}

@@ -18,13 +18,15 @@ dwc_Location(
 \arguments{
 \item{longitude}{The longitude of the given coordinates This will be assigned
 to \href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude}
-in the returned tibble. Must be a character value if the coordinates are in
-"degrees decimal minutes" or "degrees minutes seconds".}
+in the returned tibble. Accepted formats are "decimal degrees", "degrees
+decimal minutes" and "degrees minutes seconds" Must be a character value if
+the coordinates are in degrees decimal minutes or degrees minutes seconds.}
 
 \item{latitude}{The latitude of the given coordinates This will be assigned
 to \href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude}
-in the returned tibble. Must be a character value if the coordinates are in
-"degrees decimal minutes" or "degrees minutes seconds".}
+in the returned tibble. Accepted formats are "decimal degrees", "degrees
+decimal minutes" and "degrees minutes seconds" Must be a character value if
+the coordinates are in degrees decimal minutes or degrees minutes seconds.}
 
 \item{verbatimCoordinateSystem}{The format of the longitude and latitude
 coordinates. Supported terms are "decimal degrees", "degrees decimal minutes"
@@ -32,7 +34,7 @@ or "degrees minutes seconds". See:
 \url{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}}
 
 \item{verbatimSRS}{The spatial reference system associated with the
-coordinates. Given as an EPSG code as in the example: "EPSG:4326". See:
+coordinates, given as an EPSG code as in the example: "EPSG:4326". See:
 \url{http://rs.tdwg.org/dwc/terms/verbatimSRS}.}
 
 \item{gps_uncertainty}{The uncertainty in meters recorded by the GPS device.
@@ -45,13 +47,13 @@ for Australia. See \code{\link[dwcPrepare]{locality_data_aus}}. If provided,
 the dwc_locality field will be returned. Default is NULL.}
 
 \item{localities_names}{The column name in \code{localities_sf} that gives
-the locality name.}
+the locality name. Given as a string.}
 
 \item{county_sf}{An optional \code{sf POLYGON} object that includes the
 county boundaries along with the higher geography features. Column names
 must match the Darwin Core terms country, countryCode, stateProvince and
-county. If provided, the Darwin Core terms country, countryCode,
-stateProvince and county will be returned for each location. Default is NULL.}
+county. If provided, these Darwin Core terms will be returned for each
+location. Default is NULL.}
 }
 \value{
 A \code{\link[tibble]{tibble}} with Darwin Core terms
@@ -87,13 +89,12 @@ latitude and returns the Darwin Core Location fields
 \href{http://rs.tdwg.org/dwc/terms/stateProvince}{stateProvince},
 \href{http://rs.tdwg.org/dwc/terms/county}{county} and
 \href{http://rs.tdwg.org/dwc/terms/locality}{locality}.The function is a
-wrapper function that combines the dwcPrepare functions
-\code{\link{dwc_coordinates}},
+wrapper for dwcPrepare functions \code{\link{dwc_coordinates}},
 \code{\link{dwc_coordinatePrecision}},
 \code{\link{dwc_coordinateUncertaintyInMeters}},
 \code{\link{dwc_country_to_county}} and
-\code{\link{dwc_locality}}. See the help pages of these functions
-for further details.
+\code{\link{dwc_locality}}. The help pages of these functions have further
+details.
 }
 \examples{
 library("dplyr")
@@ -103,13 +104,14 @@ data("locality_data_aus")
 data("county_tas")
 
 thylacine_data |>
-mutate(dwc_Location(
-  longitude = longitude_dd,
-  latitude = latitude_dd,
-  verbatimCoordinateSystem = "decimal degrees",
-  verbatimSRS = "EPSG:4326",
-  gps_uncertainty = gps_uncertainty,
-  localities_sf = locality_data_aus,
-  localities_names = "locality_name",
-  county_sf = county_tas))
+  mutate(dwc_Location(
+    longitude = longitude_dd,
+    latitude = latitude_dd,
+    verbatimCoordinateSystem = "decimal degrees",
+    verbatimSRS = "EPSG:4326",
+    gps_uncertainty = gps_uncertainty,
+    localities_sf = locality_data_aus,
+    localities_names = "locality_name",
+    county_sf = county_tas
+  ))
 }

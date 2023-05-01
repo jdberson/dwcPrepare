@@ -19,7 +19,8 @@ crs_data
 \description{
 Calculating coordinate precision uncertainty requires the values for the
 semi-major axis and the ellipsoid flattening for the specified coordinate
-reference system. This data uses \code{\link[sf]{st_crs}} to extract the
-values from the EPSG codes.
+reference system. These data were generated using \code{\link[sf]{st_crs}} to
+extract the the semi-major axis and ellipsoid flattening values from the EPSG
+codes.
 }
 \keyword{datasets}

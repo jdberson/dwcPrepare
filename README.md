@@ -11,10 +11,10 @@
 The goal of dwcPrepare is to make it easier to prepare biodiversity data
 that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
-It can be used to automatically generate Darwin Core
+It can be used to generate Darwin Core
 [Event](https://dwc.tdwg.org/terms/#event) and
 [Location](https://dwc.tdwg.org/terms/#location) terms from your data
-set for submission to a Darwin Core Archive
+set for submission to a service that uses the Darwin Core Archive
 (e.g. [GBIF](https://www.gbif.org/) and [ALA](https://www.ala.org.au/)).
 
 For users with established data processing pipelines, the most useful
@@ -50,10 +50,10 @@ returns multiple Darwin Core fields (`dwc_coordinates()`,
 `dwc_country_to_county()`, `dwc_Event()` and `dwc_Location()`).
 
 The `dwc_Event()` and `dwc_Location()` functions provide wrappers that
-can be used with `dplyr::mutate()` to generate all of the Darwin Core
+can be used with `dplyr::mutate()` to generate the Darwin Core
 [Event](https://dwc.tdwg.org/terms/#event) and
 [Location](https://dwc.tdwg.org/terms/#location) terms supported by
-`dwcPrepare`.
+dwcPrepare.
 
 For example, using the toy dataset that comes shipped with the package:
 

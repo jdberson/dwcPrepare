@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-This vignette shows how to use `dwcPrepare` to prepare biodiversity data that use [Darwin Core](https://dwc.tdwg.org/) terms.
+This vignette shows how to use dwcPrepare to prepare biodiversity data that use [Darwin Core](https://dwc.tdwg.org/) terms.
 
 Currently, a number of Darwin Core [Event](https://dwc.tdwg.org/terms/#event) and [Location](https://dwc.tdwg.org/terms/#location) terms are supported by the package, calculated with two wrapper functions `dwc_Event()` and `dwc_Location()`. We think that the most useful part of the package is to generate some of the Darwin Core [Location](https://dwc.tdwg.org/terms/#location) terms that require a level of 'calculation'. For example, the [coordinateUncertaintyInMeters](http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters) and text for the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) term.
 
-Most functions in the package can take data from a single location / event directly as part of their arguments. However, we will mostly have a spreadsheet with multiple locations / events that we wish to format to [Darwin Core](https://dwc.tdwg.org/) terms. The following examples show how to use `dwcPrepare` with `dplyr::mutate()` in the case where we have multiple locations / events. Please see the individual help files for examples with a single location / event.
+Most functions in the package can take data from a single location / event directly as part of their arguments. However, we will mostly have a spreadsheet with multiple locations / events that we wish to format to [Darwin Core](https://dwc.tdwg.org/) terms. The following examples show how to use dwcPrepare with `dplyr::mutate()` in the case where we have multiple locations / events. Please see the individual help files for examples with a single location / event.
 
 ## Darwin Core Location terms
 
@@ -37,7 +37,7 @@ library(dplyr)
 
 ### Prepare raw data
 
-`dwcPrepare` comes with a small mock data set - Let's load the data and take a quick look.
+dwcPrepare comes with a small mock data set - Let's load the data and take a quick look.
 
 ```{r}
 data("thylacine_data")
@@ -46,7 +46,7 @@ thylacine_data
 # see ?thylacine_data for more information
 ```
 
-You will see that the data include latitude and longitude in three formats: decimal degrees (`_dd`), degrees minutes seconds (`_dms`) and degrees decimal minutes (`_ddm`). These are the three formats supported by `dwcPrepare`, which uses the [parzer](https://docs.ropensci.org/parzer/) R package to convert coordinates to decimal degrees if needed. We have included all three formats so that users can choose which format to use when trying out the functions. Here we choose degrees minutes seconds for this vignette, so we'll remove unnecessary columns:
+You will see that the data include latitude and longitude in three formats: decimal degrees (`_dd`), degrees minutes seconds (`_dms`) and degrees decimal minutes (`_ddm`). These are the three formats supported by dwcPrepare, which uses the [parzer](https://docs.ropensci.org/parzer/) R package to convert coordinates to decimal degrees if needed. We have included all three formats so that users can choose which format to use when trying out the functions. Here we choose degrees minutes seconds for this vignette, so we'll remove unnecessary columns:
 
 ```{r}
 thylacine_data <-
@@ -108,9 +108,9 @@ thylacine_data_c <-
 
 Next, if we have a shape file with the country, countryCode, stateProvince and county information for our area of interest, we can use `dwc_country_to_county()` to assign these values for each of our points.
 
-`dwcPrepare` includes shape file for the area where our mock data were collected.
+dwcPrepare includes shape file for the area where our mock data were collected.
 
-**Warning:** The `dwc_country_to_county()` function differs to the other `dwcPrepare` functions in two ways. First, is not wrapped in `dplyr::mutate()` when applying to a dataframe. Also, column names are given as strings. We may update this in a future version of the package.
+**Warning:** The `dwc_country_to_county()` function differs to the other `dwcPrepare` functions in two ways. First, it is not wrapped in `dplyr::mutate()` when applying to a dataframe. Also, column names are given as strings. We may update this in a future version of the package.
 
 ```{r}
 # Load the sf object with the county shape files that include the country,
@@ -130,9 +130,9 @@ thylacine_data_d <-
   )
 ```
 
-Finally, a useful feature of `dwcPrepare` is providing information that can be used in the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) field using `dwc_locality()`.
+Finally, a useful feature of dwcPrepare is providing information that can be used in the Darwin Core [locality](http://rs.tdwg.org/dwc/terms/locality) field using `dwc_locality()`.
 
-This function does require an [sf](https://r-spatial.github.io/sf/index.html) POINT object that includes the locality names and their longitude and latitude for the area of interest. `dwcPrepare` comes with this object for Australian localities (`locality_data_aus()`).
+This function does require an [sf](https://r-spatial.github.io/sf/index.html) POINT object that includes the locality names and their longitude and latitude for the area of interest. dwcPrepare comes with this object for Australian localities (`locality_data_aus()`).
 
 ```{r}
 # load localities data

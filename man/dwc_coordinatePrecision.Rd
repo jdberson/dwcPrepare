@@ -34,14 +34,19 @@ This function calculates the precision of geographic coordinates.
 \examples{
 # For a single point
 dwc_coordinatePrecision(144.9786, -41.17472,
-verbatimCoordinateSystem = "decimal degrees")
+  verbatimCoordinateSystem = "decimal degrees"
+)
 
 # For a set of points
 data("thylacine_data")
 thylacine_data |>
-dplyr::mutate(coordinatePrecision =
-dwc_coordinatePrecision(verbatimLatitude = latitude_dd,
-                        verbatimLongitude = longitude_dd,
-                        verbatimCoordinateSystem = "decimal degrees"))
+  dplyr::mutate(
+    coordinatePrecision =
+      dwc_coordinatePrecision(
+        verbatimLatitude = latitude_dd,
+        verbatimLongitude = longitude_dd,
+        verbatimCoordinateSystem = "decimal degrees"
+      )
+  )
 
 }

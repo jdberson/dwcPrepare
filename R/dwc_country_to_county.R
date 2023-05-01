@@ -1,9 +1,9 @@
 #' Assign country, countryCode, stateProvince and county to point locations
 #'
-#' Takes point locations as an \code{sf} POINT object and county boundaries as
-#' an \code{sf} POLYGON object and uses \code{\link[sf]{st_join}} to assign
-#' country, countryCode, stateProvince and county Darwin Core terms to each
-#' point location.
+#' Takes a data frame with point locations in decimal degrees, and an \code{sf}
+#' POLYGON object with county  boundaries and uses \code{\link[sf]{st_join}}
+#' to assign country, countryCode, stateProvince and county Darwin Core terms to
+#' each point location.
 #'
 #' Note that the function expects county to be nested within stateProvince which
 #' is in turn nested within country. The \code{sf} POLYGON object with the
@@ -59,7 +59,8 @@
 #'   )
 #'
 #' # Run the function
-#' dwc_country_to_county(point_locations,
+#' dwc_country_to_county(
+#'   df = point_locations,
 #'   decimalLongitude = "lon",
 #'   decimalLatitude = "lat",
 #'   county_sf = county_sf,

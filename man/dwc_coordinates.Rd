@@ -9,13 +9,15 @@ dwc_coordinates(longitude, latitude, verbatimCoordinateSystem, verbatimSRS)
 \arguments{
 \item{longitude}{The longitude of the given coordinates This will be assigned
 to \href{http://rs.tdwg.org/dwc/terms/verbatimLongitude}{verbatimLongitude}
-in the returned tibble. Must be a character value if the coordinates are in
-"degrees decimal minutes" or "degrees minutes seconds".}
+in the returned tibble. Accepted formats are "decimal degrees", "degrees
+decimal minutes" and "degrees minutes seconds" Must be a character value if
+the coordinates are in degrees decimal minutes or degrees minutes seconds.}
 
 \item{latitude}{The latitude of the given coordinates This will be assigned
 to \href{http://rs.tdwg.org/dwc/terms/verbatimLatitude}{verbatimLatitude}
-in the returned tibble. Must be a character value if the coordinates are in
-"degrees decimal minutes" or "degrees minutes seconds".}
+in the returned tibble. Accepted formats are "decimal degrees", "degrees
+decimal minutes" and "degrees minutes seconds" Must be a character value if
+the coordinates are in degrees decimal minutes or degrees minutes seconds.}
 
 \item{verbatimCoordinateSystem}{The format of the longitude and latitude
 coordinates. Supported terms are "decimal degrees", "degrees decimal minutes"
@@ -23,7 +25,7 @@ or "degrees minutes seconds". See:
 \url{http://rs.tdwg.org/dwc/terms/verbatimCoordinateSystem}}
 
 \item{verbatimSRS}{The spatial reference system associated with the
-coordinates. Given as an EPSG code as in the example: "EPSG:4326". See:
+coordinates, given as an EPSG code as in the example: "EPSG:4326". See:
 \url{http://rs.tdwg.org/dwc/terms/verbatimSRS}.}
 }
 \value{
@@ -40,14 +42,19 @@ and \href{http://rs.tdwg.org/dwc/terms/verbatimSRS}{verbatimSRS}.
 This function prepares the raw (verbatim) coordinate information and if
 necessary, converts coordinates from 'degrees minutes seconds' or 'degrees
 decimal minutes' to 'decimal degrees' using the R package
-\href{https://docs.ropensci.org/parzer/}{parzer}.Where longitude and latitude are
+\href{https://docs.ropensci.org/parzer/}{parzer}. Where longitude and latitude are
 provided in decimal degrees, this function will round these to a maximum of
 seven decimal places.
 }
 \examples{
 data("thylacine_data")
 thylacine_data |>
-dplyr::mutate(dwc_coordinates(longitude = longitude_dms, latitude = latitude_dms,
-verbatimCoordinateSystem = "degrees minutes seconds",
-verbatimSRS = "EPSG:4326"))
+  dplyr::mutate(
+    dwc_coordinates(
+      longitude = longitude_dms,
+      latitude = latitude_dms,
+      verbatimCoordinateSystem = "degrees minutes seconds",
+      verbatimSRS = "EPSG:4326"
+    )
+  )
 }

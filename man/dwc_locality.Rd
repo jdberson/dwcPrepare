@@ -37,23 +37,28 @@ A string that could be used in the Darwin Core locality field,
 }
 \description{
 This function finds the closest locality to the given point location, as well
-as the distance and direction of the closest locality from the focal
-location. The returned string could be used in the Darwin Core
+as its distance and direction from the focal location. The returned string
+could be used in the Darwin Core
 \href{http://rs.tdwg.org/dwc/terms/locality}{locality} field.
 }
 \examples{
 localities_sf <-
-sf::st_as_sf(data.frame(
- name = c("A", "B", "C"),
- lon = c(117.093225, 127.502052, 115.674972),
- lat = c(-33.110168, -25.128663, -33.982473)),
- coords = c("lon", "lat"),
- crs = sf::st_crs("EPSG:4326"))
+  sf::st_as_sf(
+    data.frame(
+      name = c("A", "B", "C"),
+      lon = c(117.093225, 127.502052, 115.674972),
+      lat = c(-33.110168, -25.128663, -33.982473)
+    ),
+    coords = c("lon", "lat"),
+    crs = sf::st_crs("EPSG:4326")
+  )
 
 
 dwc_locality(
- decimalLongitude = 115.949465, decimalLatitude = -32.029655,
- localities_sf = localities_sf, localities_names = "name"
- )
+  decimalLongitude = 115.949465,
+  decimalLatitude = -32.029655,
+  localities_sf = localities_sf,
+  localities_names = "name"
+)
 
 }

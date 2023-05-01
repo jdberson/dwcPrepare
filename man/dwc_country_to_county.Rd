@@ -39,8 +39,8 @@ the countryCode of the country in which the county is found. The default
 value is "countryCode".}
 
 \item{stateProvince_column_name}{The column name in \code{county_sf} that
-gives the State or Province in which the county is found.The default value is
-"stateProvince".}
+gives the State or Province in which the county is found. The default value
+is "stateProvince".}
 
 \item{county_column_name}{The column name in \code{county_sf} that gives the
 county name. The default value is "county".}
@@ -53,10 +53,10 @@ The original \code{df} object with the additional columns
 \href{http://rs.tdwg.org/dwc/terms/county}{county}.
 }
 \description{
-Takes point locations as an \code{sf} POINT object and county boundaries as
-an \code{sf} POLYGON object and uses \code{\link[sf]{st_join}} to assign
-country, countryCode, stateProvince and county Darwin Core terms to each
-point location.
+Takes a data frame with point locations in decimal degrees, and an \code{sf}
+POLYGON object with county  boundaries and uses \code{\link[sf]{st_join}}
+to assign country, countryCode, stateProvince and county Darwin Core terms to
+each point location.
 }
 \details{
 Note that the function expects county to be nested within stateProvince which
@@ -69,14 +69,16 @@ geographies.
 point_locations <- data.frame(
   name = c("A", "B", "C"),
   lon = c(117.093225, 127.502052, 115.674972),
-  lat = c(-33.110168, -25.128663, -33.982473))
+  lat = c(-33.110168, -25.128663, -33.982473)
+)
 
 # Make up some county polygon data nested within higher geographies
 county_sf <-
   sf::st_buffer(sf::st_as_sf(point_locations,
-                             coords = c("lon", "lat"),
-                             remove = FALSE,
-                             crs = sf::st_crs("EPSG:4326")), dist = 1000) |>
+    coords = c("lon", "lat"),
+    remove = FALSE,
+    crs = sf::st_crs("EPSG:4326")
+  ), dist = 1000) |>
   dplyr::mutate(
     country_raw = c("Country 1", "Country 2", "Country 3"),
     countryCode_raw = c("C1", "C2", "C3"),
@@ -85,12 +87,14 @@ county_sf <-
   )
 
 # Run the function
-dwc_country_to_county(point_locations,
-                    decimalLongitude = "lon",
-                    decimalLatitude = "lat",
-                    county_sf = county_sf,
-                    country_column_name = "country_raw",
-                    countryCode_column_name = "countryCode_raw",
-                    stateProvince_column_name = "stateProvince_raw",
-                    county_column_name = "county_raw")
+dwc_country_to_county(
+  df = point_locations,
+  decimalLongitude = "lon",
+  decimalLatitude = "lat",
+  county_sf = county_sf,
+  country_column_name = "country_raw",
+  countryCode_column_name = "countryCode_raw",
+  stateProvince_column_name = "stateProvince_raw",
+  county_column_name = "county_raw"
+)
 }

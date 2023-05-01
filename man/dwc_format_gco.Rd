@@ -17,8 +17,8 @@ calculator at \url{http://georeferencing.org/georefcalculator/gc.html}.}
 A \code{\link[tibble]{tibble}}. Column names are Darwin Core terms.
 }
 \description{
-The \url{http://georeferencing.org/georefcalculator/gc.html} georeferencing
-calculator allows for the results to be output by selecting 'Copy' and then
+The online \href{http://georeferencing.org/georefcalculator/gc.html}{georeferencingcalculator}
+allows for the results to be output by selecting 'Copy' and then
 pasted into a spreadsheet. This function takes the output as an argument and
 formats it as a \code{\link[tibble]{tibble}}.
 }
@@ -26,7 +26,8 @@ formats it as a \code{\link[tibble]{tibble}}.
 # Note that the georeference_calculator_output has been truncated for this
 # example
 dwc_format_gco(
-location_identifier = "A",
-georeference_calculator_output =
-"10.27	-123.6	WGS84	1557	0.0000001	JB	2022-08-31	Georeferencing...")
+  location_identifier = "A",
+  georeference_calculator_output =
+    "10.27	-123.6	WGS84	1557	0.0000001	JB	2022-08-31	Georeferencing..."
+)
 }

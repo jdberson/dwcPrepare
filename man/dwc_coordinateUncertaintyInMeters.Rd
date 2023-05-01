@@ -20,7 +20,7 @@ The precision of the coordinates in degrees. Value must be between 0.00001
 and 1. See: \url{http://rs.tdwg.org/dwc/terms/coordinatePrecision}.}
 
 \item{geodeticDatum}{Output of \code{\link[dwcPrepare]{dwc_coordinates}}. The
-spatial reference system associated with the coordinates. Given as an EPSG
+spatial reference system associated with the coordinates given as an EPSG
 code as in the example: "EPSG:4326". See: \url{http://rs.tdwg.org/dwc/terms/geodeticDatum}.}
 
 \item{gps_uncertainty}{The uncertainty in meters recorded by the GPS device.
@@ -53,7 +53,7 @@ The uncertainty associated with geographic coordinates from an unknown datum
 is taken from
 \url{https://docs.gbif-uat.org/georeferencing-best-practices/1.0/en/#uncertainty-from-unknown-datum}.
 Note that this is a worst-case scenario whilst this function lacks the
-functionality to correctly determine the uncertainty of an unknown datum. If
+ability to correctly determine the uncertainty of an unknown datum. If
 you have only a small number of locations and an unknown datum, we recommend
 using the Wieczorek C, J Wieczorek (2021) Georeferencing Calculator. The
 output of the calculator can be copied into R using

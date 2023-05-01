@@ -22,14 +22,14 @@ dwc_Event(
 \item{start}{The start date or date-time of the sampling event. Accepts
 character strings with dates in one of the following formats: "dmy HMS"
 (eg, "24/12/2012 15:45:00"), "ymd HMS" (eg, "2012-12-24 15:45:00"), "dmy"
-(eg, "24/12/2012" or "ymd" (eg, "2012-12-24").}
+(eg, "24/12/2012") or "ymd" (eg, "2012-12-24").}
 
 \item{end}{The end date or date-time of the sampling event. Default is NA.}
 
 \item{time_NA_value}{Where a mixture of dates/date-times occur, the dates
 without times are often assigned a time of 00:00:00. This is the default
 value here, and is used so that the eventDate field is shown correctly. We
-suggest being very cautious if changing the default.}
+suggest being cautious if changing the default.}
 
 \item{tzone}{The timezone of the date-time passed to
 \code{\link[lubridate]{parse_date_time}}. The default is "UTC".}
@@ -95,18 +95,20 @@ or end values have a time component, both values are treated as dates.
 users may prefer to use the lubridate functions directly.
 }
 \examples{
+# For a single start and a single end date-time:
 dwc_Event(start = "2012-12-24 15:00:00", end = "2012-12-27 16:00:00")
 
-# The \code{\link[tibble]{tibble}} will be added to an existing dataframe
-# if combined with dplyr's mutate
-
-library("dplyr")
+# The returned tibble will be added to an existing dataframe if combined with
+#  dplyr's mutate, for example:
 
 # Load data
 data("thylacine_data")
 
+# Use dwc_Event withe dplyr::mutate()
 thylacine_data |>
-  mutate(dwc_Event(start = date_trap_setup,
-                   end = date_trap_collected))
+  dplyr::mutate(dwc_Event(
+    start = date_trap_setup,
+    end = date_trap_collected
+  ))
 
 }
