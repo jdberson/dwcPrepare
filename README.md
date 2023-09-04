@@ -4,6 +4,8 @@
 # dwcPrepare
 
 <!-- badges: start -->
+
+[![DOI](https://doi.org/10.5281/zenodo.8312488)](https://doi.org/10.5281/zenodo.8312488)
 <!-- badges: end -->
 
 ## Overview
